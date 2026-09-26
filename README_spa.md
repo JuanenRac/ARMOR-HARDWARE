@@ -4,7 +4,15 @@
 
 # 🧱 ARMOR-HARDWARE
 
-<p align="center"><a href="README.md">🇺🇸 English</a> | 🇪🇸 <b>Español</b></p>
+<p align="center">
+  <a href="README.md">🇺🇸 English</a> |
+  🇪🇸 <b>Español</b> |
+  <a href="README_fra.md">🇫🇷 Français</a> |
+  <a href="README_ita.md">🇮🇹 Italiano</a> |
+  <a href="README_deu.md">🇩🇪 Deutsch</a> |
+  <a href="README_zho.md">🇨🇳 简体中文</a> |
+  <a href="README_jpn.md">🇯🇵 日本語</a>
+</p>
 
 ### Carcasas, electrónica y la matriz de aceptación de banco
 
@@ -21,26 +29,14 @@
 
 ---
 
-## 1. 🛠️ DESCRIPCIÓN
+## 🎯 Descripción general
 
 * **El diseño real es `CAD/CARCASA_SENSORES.scad`** (con exportaciones STL, 3MF y AMF): una base de esquina de 90 grados con visera, techo y suelo, escalones de retención, una tapa frontal deslizante de 2 mm y solapas laterales, todo gobernado por parámetros con nombre. `scad/node_enclosure.scad` es solo una caja de ejemplo.
 * **Volúmenes reservados** para tres módulos de radar, la placa ESP32-S3-ETH-PoE, la ventana del sensor, un prensaestopas, la magnética PoE y el calefactor PTC. Ningún material metálico, conductor o cargado de carbono delante de una apertura de 24 GHz sin atenuación medida.
 * **Matriz de aceptación de banco:** las comprobaciones de radio, entorno, alimentación, red y cámaras con un método y un criterio propuesto cada una, y una tabla de compatibilidad de cámaras por rellenar.
 * Antes de fabricar, registrar contornos exactos de placas, conectores, posición de tornillos, zonas libres de antena, el camino térmico y el objetivo de estanqueidad ([entradas de diseño](docs/DESIGN_INPUTS.md)).
 
----
-
-## 2. 🔧 COMPILAR Y EJECUTAR
-
-```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
-```
-
-Véase el [límite de validación](docs/VALIDATION.md). La licencia de hardware prevista es CERN-OHL-S-2.0; añade su texto completo antes de publicar los diseños.
-
----
-
-## 📂 ESTRUCTURA DE DIRECTORIOS
+## 📂 Estructura del repositorio
 
 ```text
 ARMOR-HARDWARE/
@@ -50,7 +46,40 @@ ARMOR-HARDWARE/
 └── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
 ```
 
----
+## 🛠️ Entorno de desarrollo
+
+```powershell
+openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+```
+
+Véase el [límite de validación](docs/VALIDATION.md). La licencia de hardware prevista es CERN-OHL-S-2.0; añade su texto completo antes de publicar los diseños.
+
+## 🔗 Proyectos relacionados
+
+**A.R.M.O.R.** (Autonomous Radar & Multimodal Observation Range) es un sistema de seguridad perimetral hecho de repositorios independientes. Cada uno tiene su propia versión, sus propias pruebas y su propio README; esta es la familia:
+
+* **[ARMOR-COMMON](../ARMOR-COMMON)** - Contratos de mensajes, validadores, vectores de conformidad y tipos generados
+* **[ARMOR-RADAR](../ARMOR-RADAR)** - Firmware del nodo de campo para ESP32-S3 con tres radares y su propio panel web
+* **[ARMOR-SOLAR](../ARMOR-SOLAR)** - Protocolos de inversores y baterías solares y los mensajes de un nodo pasarela
+* **[ARMOR-SERVER](../ARMOR-SERVER)** - Coordinador central: telemetría, alarmas, dispositivos, lecturas solares y cámaras
+* **[ARMOR-STUDIO](../ARMOR-STUDIO)** - Consola web: cámaras, radar, alarmas, energía solar y el diseñador de sitio 2D/3D
+* **[ARMOR-ANDROID-CONTROL](../ARMOR-ANDROID-CONTROL)** - Cliente Android del operador con radar 2D/3D en vivo
+* **[ARMOR-SERVER-AI](../ARMOR-SERVER-AI)** - Política de inferencia visual que explica sus decisiones y nunca actúa
+* **[ARMOR-VOICE-AI](../ARMOR-VOICE-AI)** - Intenciones de voz sin conexión con una confirmación imposible de falsificar
+* **ARMOR-HARDWARE** (este repositorio) - Cajas, electrónica y la matriz de aceptación en banco
+* **[ARMOR-DEVOPS](../ARMOR-DEVOPS)** - Despliegue, el banco de pruebas de la CM5, copias de seguridad y TLS
+* **[ARMOR-SIMULATOR](../ARMOR-SIMULATOR)** - Simulador de telemetría sin conexión con fallos repetibles
+* **[ARMOR-DOCS](../ARMOR-DOCS)** - Arquitectura, base de seguridad y la matriz de capacidades
+
+## 📚 Documentación y comunidad
+
+Dónde leer más:
+
+* [Matriz de capacidades: qué está probado y qué no](../ARMOR-DOCS/docs/CAPABILITY_MATRIX.md)
+* [Catálogo de proyectos: versiones y cómo dependen unos de otros](../ARMOR-DOCS/docs/PROJECT_CATALOG.md)
+* [Historial de cambios de este repositorio](CHANGELOG.md)
+* [Licencia (GPL-3.0-or-later)](LICENSE)
+* Preguntas, ideas e informes: electrohobby3d@gmail.com
 
 ## 👤 AUTOR
 
