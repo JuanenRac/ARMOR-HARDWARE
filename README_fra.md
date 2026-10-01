@@ -31,7 +31,7 @@
 
 ## 🎯 Présentation
 
-* **Le vrai design est `scad/node_enclosure_radar.scad`** (avec exports STL, 3MF et AMF, plus `node_enclosure_radar_1.3mf` et `node_enclosure_radar_2.3mf`, projets de tranchage de la base et du couvercle) : une base d'angle à 90 degrés avec visière, toit et fond, des gradins de retenue, un couvercle frontal coulissant de 2 mm et des rabats latéraux, le tout piloté par des paramètres nommés. `view_mode` choisit ce qui est dessiné ou exporté : 0 éclaté, 1 assemblé, 2 la base seule, 3 le couvercle seul.
+* **Le vrai design est `CAD/CARCASA_SENSORES.scad`** (avec exports STL, 3MF et AMF) : une base d'angle à 90 degrés avec visière, toit et fond, des gradins de retenue, un couvercle frontal coulissant de 2 mm et des rabats latéraux, le tout piloté par des paramètres nommés. `scad/node_enclosure.scad` n'est qu'une boîte provisoire.
 * **Volumes réservés** pour trois modules radar, la carte ESP32-S3-ETH-PoE, la fenêtre du capteur, un presse-étoupe, les magnétiques PoE et le réchauffeur PTC. Aucun matériau métallique, conducteur ou chargé de carbone devant une ouverture 24 GHz sans atténuation mesurée.
 * **Matrice d'acceptation sur banc :** les contrôles radio, environnement, alimentation, réseau et caméra, chacun avec une méthode et un critère de réussite proposé, et un tableau de compatibilité des caméras à remplir.
 * Avant la fabrication, consigner les contours exacts des cartes, les connecteurs, la position des vis, les zones d'exclusion d'antenne, le chemin thermique et l'objectif d'étanchéité ([données de conception](docs/DESIGN_INPUTS.md)).
@@ -40,17 +40,16 @@
 
 ```text
 ARMOR-HARDWARE/
-├── scad/    node_enclosure_radar.scad (+ stl, 3mf, amf, _1.3mf, _2.3mf)
-├── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
-├── tools/   scripts de build, de test et de CI communs à tous les dépôts A.R.M.O.R.
-└── images/  visuels de marque
+├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
+├── scad/    node_enclosure.scad (placeholder)
+├── EDA/     KiCad (empty)
+└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
 ```
 
 ## 🛠️ Environnement de développement
 
 ```powershell
-openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
-openscad -D view_mode=3 -o build/node_enclosure_radar_cover.stl scad/node_enclosure_radar.scad
+openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
 ```
 
 Voir la [frontière de validation](docs/VALIDATION.md). La licence matérielle prévue est CERN-OHL-S-2.0 ; ajoutez son texte complet avant de publier les designs.
@@ -63,6 +62,7 @@ Voir la [frontière de validation](docs/VALIDATION.md). La licence matérielle p
 * **[ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR)** - Firmware du nœud de terrain pour ESP32-S3 avec trois radars et son propre panneau web
 * **[ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR)** - Protocoles des onduleurs et batteries solaires et messages d'un nœud passerelle
 * **[ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL)** - Nœud électrique : compteurs, le message des mesures du réseau et les règles de commutation
+* **[ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI)** - Panneau tactile : l'état du système sur un écran mural, armer et acquitter, et la maison de l'assistant vocal
 * **[ARMOR-NETWORK](https://github.com/JuanenRac/ARMOR-NETWORK)** - Le réseau local : ses appareils, internet et ce qui change
 * **[ARMOR-SERVER](https://github.com/JuanenRac/ARMOR-SERVER)** - Coordinateur central : télémétrie, alarmes, appareils, relevés solaires et caméras
 * **[ARMOR-STUDIO](https://github.com/JuanenRac/ARMOR-STUDIO)** - Console web : caméras, radar, alarmes, énergie solaire et concepteur de site 2D/3D
