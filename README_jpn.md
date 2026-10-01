@@ -31,7 +31,7 @@
 
 ## 🎯 概要
 
-* **本当の設計は `CAD/CARCASA_SENSORES.scad`**（STL、3MF、AMF のエクスポート付き）：ひさし、屋根、床を備えた 90 度のコーナーベース、保持用の段、2 mm のスライド式フロントカバーとサイドフラップ。すべて名前付きパラメーターで制御されます。`scad/node_enclosure.scad` は仮の箱にすぎません。
+* **本当の設計は `scad/node_enclosure_radar.scad`**（STL、3MF、AMF のエクスポートに加え、土台とカバーそれぞれのスライサー用プロジェクト `node_enclosure_radar_1.3mf` と `node_enclosure_radar_2.3mf`）：ひさし、屋根、床を備えた 90 度のコーナーベース、保持用の段、2 mm のスライド式フロントカバーとサイドフラップ。すべて名前付きパラメーターで制御されます。`view_mode` で描画・エクスポートする対象を選びます：0 分解表示、1 組み立て状態、2 土台のみ、3 カバーのみ。
 * **予約された空間：** レーダーモジュール 3 基、ESP32-S3-ETH-PoE ボード、センサー窓、ケーブルグランド、PoE マグネティクス、PTC ヒーター。減衰を測定していない限り、24 GHz の開口の前に金属、導電性、カーボン入りの材料を置かないこと。
 * **ベンチ受け入れマトリクス：** 無線、環境、電源、ネットワーク、カメラの各チェックに、方法と提案する合格基準を付け、記入するカメラ互換性表も用意しています。
 * 製造の前に、ボードの正確な外形、コネクター、ネジ位置、アンテナの禁止領域、熱経路、防塵防水の目標を記録すること（[設計入力](docs/DESIGN_INPUTS.md)）。
@@ -40,16 +40,17 @@
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (placeholder)
-├── EDA/     KiCad (empty)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/    node_enclosure_radar.scad (+ stl, 3mf, amf, _1.3mf, _2.3mf)
+├── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── tools/   すべての A.R.M.O.R. リポジトリで共通のビルド、テスト、CI スクリプト
+└── images/  ブランド素材
 ```
 
 ## 🛠️ 開発環境
 
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D view_mode=3 -o build/node_enclosure_radar_cover.stl scad/node_enclosure_radar.scad
 ```
 
 [検証の境界](docs/VALIDATION.md)を参照。想定するハードウェアライセンスは CERN-OHL-S-2.0 です。設計を公開する前にその全文を追加してください。

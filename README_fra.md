@@ -31,7 +31,7 @@
 
 ## 🎯 Présentation
 
-* **Le vrai design est `CAD/CARCASA_SENSORES.scad`** (avec exports STL, 3MF et AMF) : une base d'angle à 90 degrés avec visière, toit et fond, des gradins de retenue, un couvercle frontal coulissant de 2 mm et des rabats latéraux, le tout piloté par des paramètres nommés. `scad/node_enclosure.scad` n'est qu'une boîte provisoire.
+* **Le vrai design est `scad/node_enclosure_radar.scad`** (avec exports STL, 3MF et AMF, plus `node_enclosure_radar_1.3mf` et `node_enclosure_radar_2.3mf`, projets de tranchage de la base et du couvercle) : une base d'angle à 90 degrés avec visière, toit et fond, des gradins de retenue, un couvercle frontal coulissant de 2 mm et des rabats latéraux, le tout piloté par des paramètres nommés. `view_mode` choisit ce qui est dessiné ou exporté : 0 éclaté, 1 assemblé, 2 la base seule, 3 le couvercle seul.
 * **Volumes réservés** pour trois modules radar, la carte ESP32-S3-ETH-PoE, la fenêtre du capteur, un presse-étoupe, les magnétiques PoE et le réchauffeur PTC. Aucun matériau métallique, conducteur ou chargé de carbone devant une ouverture 24 GHz sans atténuation mesurée.
 * **Matrice d'acceptation sur banc :** les contrôles radio, environnement, alimentation, réseau et caméra, chacun avec une méthode et un critère de réussite proposé, et un tableau de compatibilité des caméras à remplir.
 * Avant la fabrication, consigner les contours exacts des cartes, les connecteurs, la position des vis, les zones d'exclusion d'antenne, le chemin thermique et l'objectif d'étanchéité ([données de conception](docs/DESIGN_INPUTS.md)).
@@ -40,16 +40,17 @@
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (placeholder)
-├── EDA/     KiCad (empty)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/    node_enclosure_radar.scad (+ stl, 3mf, amf, _1.3mf, _2.3mf)
+├── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── tools/   scripts de build, de test et de CI communs à tous les dépôts A.R.M.O.R.
+└── images/  visuels de marque
 ```
 
 ## 🛠️ Environnement de développement
 
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D view_mode=3 -o build/node_enclosure_radar_cover.stl scad/node_enclosure_radar.scad
 ```
 
 Voir la [frontière de validation](docs/VALIDATION.md). La licence matérielle prévue est CERN-OHL-S-2.0 ; ajoutez son texte complet avant de publier les designs.

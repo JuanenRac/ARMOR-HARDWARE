@@ -31,7 +31,7 @@
 
 ## 🎯 Descripción general
 
-* **El diseño real es `CAD/CARCASA_SENSORES.scad`** (con exportaciones STL, 3MF y AMF): una base de esquina de 90 grados con visera, techo y suelo, escalones de retención, una tapa frontal deslizante de 2 mm y solapas laterales, todo gobernado por parámetros con nombre. `scad/node_enclosure.scad` es solo una caja de ejemplo.
+* **El diseño real es `scad/node_enclosure_radar.scad`** (con exportaciones STL, 3MF y AMF, y además `node_enclosure_radar_1.3mf` y `node_enclosure_radar_2.3mf`, proyectos para el laminador de la base y de la tapa): una base de esquina de 90 grados con visera, techo y suelo, escalones de retención, una tapa frontal deslizante de 2 mm y solapas laterales, todo gobernado por parámetros con nombre. `view_mode` elige qué se dibuja o exporta: 0 despiece, 1 montado, 2 solo la base, 3 solo la tapa.
 * **Volúmenes reservados** para tres módulos de radar, la placa ESP32-S3-ETH-PoE, la ventana del sensor, un prensaestopas, la magnética PoE y el calefactor PTC. Ningún material metálico, conductor o cargado de carbono delante de una apertura de 24 GHz sin atenuación medida.
 * **Matriz de aceptación de banco:** las comprobaciones de radio, entorno, alimentación, red y cámaras con un método y un criterio propuesto cada una, y una tabla de compatibilidad de cámaras por rellenar.
 * Antes de fabricar, registrar contornos exactos de placas, conectores, posición de tornillos, zonas libres de antena, el camino térmico y el objetivo de estanqueidad ([entradas de diseño](docs/DESIGN_INPUTS.md)).
@@ -40,16 +40,17 @@
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (ejemplo)
-├── EDA/     KiCad (vacío)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/    node_enclosure_radar.scad (+ stl, 3mf, amf, _1.3mf, _2.3mf)
+├── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── tools/   scripts de compilación, pruebas y CI compartidos por todos los repositorios A.R.M.O.R.
+└── images/  imágenes de marca
 ```
 
 ## 🛠️ Entorno de desarrollo
 
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D view_mode=3 -o build/node_enclosure_radar_cover.stl scad/node_enclosure_radar.scad
 ```
 
 Véase el [límite de validación](docs/VALIDATION.md). La licencia de hardware prevista es CERN-OHL-S-2.0; añade su texto completo antes de publicar los diseños.
