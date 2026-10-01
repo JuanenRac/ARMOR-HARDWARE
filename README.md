@@ -31,7 +31,7 @@
 
 ## 🎯 Overview
 
-* **The real design is `CAD/CARCASA_SENSORES.scad`** (with STL, 3MF and AMF exports): a 90-degree corner base with a visor, roof and floor, retaining steps, a sliding 2 mm front cover and side flaps, all driven by named parameters. `scad/node_enclosure.scad` is only a placeholder box.
+* **The real design is `scad/node_enclosure_radar.scad`** (with STL, 3MF and AMF exports, plus `node_enclosure_radar_1.3mf` and `node_enclosure_radar_2.3mf`, slicer project files of the base and of the cover): a 90-degree corner base with a visor, roof and floor, retaining steps, a sliding 2 mm front cover and side flaps, all driven by named parameters. `view_mode` picks what is drawn or exported: 0 exploded, 1 assembled, 2 the base alone, 3 the cover alone.
 * **Reserved volumes** for three radar modules, the ESP32-S3-ETH-PoE board, the sensor window, a cable gland, the PoE magnetics and the PTC heater. No metallic, conductive or carbon-loaded material in front of a 24 GHz aperture without measured attenuation.
 * **Bench acceptance matrix:** the radio, environment, power, network and camera checks with a method and a proposed pass criterion each, and a camera compatibility table to fill in.
 * Before fabrication, record exact board outlines, connectors, screw positions, antenna keep-outs, the thermal path and the ingress target ([design inputs](docs/DESIGN_INPUTS.md)).
@@ -40,16 +40,17 @@
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (placeholder)
-├── EDA/     KiCad (empty)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/    node_enclosure_radar.scad (+ stl, 3mf, amf, _1.3mf, _2.3mf)
+├── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── tools/   build, test and CI scripts shared by every A.R.M.O.R. repository
+└── images/  brand assets
 ```
 
 ## 🛠️ Development Environment
 
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D view_mode=3 -o build/node_enclosure_radar_cover.stl scad/node_enclosure_radar.scad
 ```
 
 See the [validation boundary](docs/VALIDATION.md). The intended hardware licence is CERN-OHL-S-2.0; add its full text before releasing the designs.
