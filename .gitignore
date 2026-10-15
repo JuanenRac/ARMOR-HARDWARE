@@ -3,3 +3,7 @@
 *.lck
 exports/
 build/
+
+__pycache__/
+
+*.pyc
