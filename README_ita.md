@@ -21,39 +21,56 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
   <img src="https://img.shields.io/badge/EDA-KiCad-314cb0.svg" alt="EDA">
-  <img src="https://img.shields.io/badge/Maturity-mechanical%20baseline-FFB020.svg" alt="Maturity">
+  <img src="https://img.shields.io/badge/Version-0.2.3-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
 ---
 
-**Controllo di onestà - cosa funziona oggi:** Il contenitore è un **punto di partenza meccanico stampabile, non una certificazione IP, RF o termica.** Nulla è stato misurato su un prototipo; ogni riga della [matrice di accettazione da banco](docs/BENCH_ACCEPTANCE.md) è *non testata*.
+**Controllo di onestà - cosa funziona oggi:** L'involucro del radar è un **punto di partenza meccanico stampabile, non una classificazione IP, RF o termica**, e la scatola parametrica per i nodi solare, elettrico, allarme e pannello touch si renderizza come un solido valido nei suoi quattro preset, ma **nessuna è stata stampata né misurata** (le dimensioni delle schede vengono dai datasheet e il vano batteria del nodo allarme è troppo piccolo per una 12 V 7 Ah: cambialo con la batteria usata). Ogni riga della [matrice di accettazione al banco](docs/BENCH_ACCEPTANCE.md) è *non provata*.
 
 ---
 
+## 📋 In breve
+
+| | |
+|---|---|
+| Versione | `0.2.3` |
+| Maturità | Funzionale |
+| Tecnologia | OpenSCAD / KiCad |
+| Su hardware reale | Ancora nessuno: nulla è stato stampato né misurato; le quattro scatole si renderizzano solo come solidi validi |
+
 ## 🎯 Panoramica
 
-* **Il vero progetto è `CAD/CARCASA_SENSORES.scad`** (con esportazioni STL, 3MF e AMF): una base d'angolo a 90 gradi con visiera, tetto e fondo, gradini di ritegno, un coperchio frontale scorrevole da 2 mm e alette laterali, tutto guidato da parametri con nome. `scad/node_enclosure.scad` è solo una scatola provvisoria.
-* **Volumi riservati** per tre moduli radar, la scheda ESP32-S3-ETH-PoE, la finestra del sensore, un passacavo, la magnetica PoE e il riscaldatore PTC. Nessun materiale metallico, conduttivo o caricato di carbonio davanti a un'apertura a 24 GHz senza attenuazione misurata.
-* **Matrice di accettazione da banco:** i controlli di radio, ambiente, alimentazione, rete e telecamera, ciascuno con un metodo e un criterio di superamento proposto, e una tabella di compatibilità delle telecamere da compilare.
-* Prima della fabbricazione, registrare i contorni esatti delle schede, i connettori, la posizione delle viti, le aree di esclusione delle antenne, il percorso termico e l'obiettivo di tenuta ([dati di progetto](docs/DESIGN_INPUTS.md)).
+* **L'involucro del radar è `scad/node_enclosure_radar.scad`** (con esportazioni STL, 3MF e AMF e due progetti dello slicer, la base e il coperchio scorrevole): una base d'angolo a 90 gradi con visiera, tetto e pavimento, gradini di ritenuta, un coperchio frontale scorrevole da 2 mm e alette laterali, tutto governato da parametri con nome.
+* **Una scatola parametrica per gli altri quattro nodi** (`scad/node_box.scad`, preset `solar`, `electrical`, `alarm` e `hmi`): pareti, colonnine per la scheda, fori per pressacavi, una ventilazione, un alloggiamento per un microinterruttore antimanomissione sotto il coperchio e, per la centrale d'allarme, un vano per la batteria di riserva.
+* **Volumi riservati** per tre moduli radar, la scheda ESP32-S3-ETH-PoE, la finestra del sensore, un pressacavo, la magnetica PoE e il riscaldatore PTC. Nessun materiale metallico, conduttivo o caricato con carbonio davanti a un'apertura a 24 GHz senza averlo misurato.
+* **Matrice di accettazione al banco:** i controlli di radio, ambiente, alimentazione, rete e telecamera con un metodo e un criterio di superamento proposto ciascuno, e una tabella di compatibilità delle telecamere da compilare.
+* Prima della fabbricazione, registra i contorni esatti delle schede, i connettori, le posizioni delle viti, le zone libere d'antenna, il percorso termico e l'obiettivo di protezione ([dati di progetto](docs/DESIGN_INPUTS.md)).
+
+## 🧩 Ruolo in A.R.M.O.R.
+
+ARMOR-HARDWARE è ciò che contiene i nodi. Porta l'involucro del nodo radar, la scatola parametrica dei nodi solare, elettrico, allarme e pannello touch, e la matrice di accettazione al banco che dice come giudicare un prototipo prima di metterlo a una parete. I suoi progetti sono il punto di partenza per le schede su cui girano [ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR), [ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR), [ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL), [ARMOR-ALARM](https://github.com/JuanenRac/ARMOR-ALARM) e [ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI).
 
 ## 📂 Struttura del repository
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (placeholder)
-├── EDA/     KiCad (empty)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the other four nodes)
+├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+└── images/ brand assets
 ```
 
 ## 🛠️ Ambiente di sviluppo
 
+**Requisiti:** OpenSCAD 2021.01+ (to render the enclosures), a 3D printer (FDM) to try them
+
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm, hmi
 ```
 
-Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware prevista è CERN-OHL-S-2.0; aggiungi il testo completo prima di pubblicare i progetti.
+Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware prevista è CERN-OHL-S-2.0; aggiungi il suo testo completo prima di pubblicare i progetti.
 
 ## 🔗 Progetti correlati
 
@@ -63,12 +80,14 @@ Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware previs
 * **[ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR)** - Firmware del nodo di campo per ESP32-S3 con tre radar e un proprio pannello web
 * **[ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR)** - Protocolli di inverter e batterie solari e messaggi di un nodo gateway
 * **[ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL)** - Nodo elettrico: contatori, il messaggio delle letture della rete e le regole di manovra
+* **[ARMOR-ALARM](https://github.com/JuanenRac/ARMOR-ALARM)** - Nodo e centrale d'allarme: zone, inserimento, ritardi, sirena e PIN, con il server o senza
 * **[ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI)** - Pannello touch: lo stato del sistema su uno schermo a parete, attivare e riconoscere gli allarmi, e la casa dell'assistente vocale
 * **[ARMOR-NETWORK](https://github.com/JuanenRac/ARMOR-NETWORK)** - La rete locale: i suoi dispositivi, internet e ciò che cambia
 * **[ARMOR-SERVER](https://github.com/JuanenRac/ARMOR-SERVER)** - Coordinatore centrale: telemetria, allarmi, dispositivi, letture solari e telecamere
 * **[ARMOR-STUDIO](https://github.com/JuanenRac/ARMOR-STUDIO)** - Console web: telecamere, radar, allarmi, energia solare e progettista del sito 2D/3D
 * **[ARMOR-ANDROID-CONTROL](https://github.com/JuanenRac/ARMOR-ANDROID-CONTROL)** - Client Android dell'operatore con radar 2D/3D in tempo reale
 * **[ARMOR-SERVER-AI](https://github.com/JuanenRac/ARMOR-SERVER-AI)** - Politica di inferenza visiva che spiega le sue decisioni e non agisce mai
+* **[ARMOR-VISION](https://github.com/JuanenRac/ARMOR-VISION)** - Zone delle telecamere, maschere e regole di rilevamento per la Jetson Orin NX
 * **[ARMOR-VOICE-AI](https://github.com/JuanenRac/ARMOR-VOICE-AI)** - Intenti vocali offline con una conferma impossibile da falsificare
 * **ARMOR-HARDWARE** (questo repository) - Contenitori, elettronica e matrice di accettazione da banco
 * **[ARMOR-DEVOPS](https://github.com/JuanenRac/ARMOR-DEVOPS)** - Distribuzione, banco di prova CM5, backup e TLS

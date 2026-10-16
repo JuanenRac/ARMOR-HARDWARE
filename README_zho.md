@@ -21,39 +21,56 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
   <img src="https://img.shields.io/badge/EDA-KiCad-314cb0.svg" alt="EDA">
-  <img src="https://img.shields.io/badge/Maturity-mechanical%20baseline-FFB020.svg" alt="Maturity">
+  <img src="https://img.shields.io/badge/Version-0.2.3-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
 ---
 
-**诚实性检查 - 今天真正能运行的部分:** 外壳是一个**可打印的机械起点，不是 IP、射频或热学认证。** 没有在原型上测量过任何东西；[台架验收矩阵](docs/BENCH_ACCEPTANCE.md)的每一行都是*未测试*。
+**诚实性检查 - 今天真正能运行的部分:** 雷达外壳是**可打印的机械起点，不是 IP、射频或热学等级**；用于太阳能、电气、报警和触摸屏节点的参数化盒子在四个预设下都能渲染为有效实体，但**都没有打印或测量过**（板子尺寸来自数据手册，报警节点的电池仓放不下 12 V 7 Ah 的电池：请改成实际使用的电池）。[台架验收矩阵](docs/BENCH_ACCEPTANCE.md)的每一行都是*未测试*。
 
 ---
 
+## 📋 速览
+
+| | |
+|---|---|
+| 版本 | `0.2.3` |
+| 成熟度 | 可用 |
+| 技术栈 | OpenSCAD / KiCad |
+| 真实硬件 | 暂无：没有打印或测量过任何东西；四个盒子只是能渲染为有效实体 |
+
 ## 🎯 概述
 
-* **真正的设计是 `CAD/CARCASA_SENSORES.scad`**（附 STL、3MF 和 AMF 导出）：带遮光檐、顶部和底板的 90 度拐角底座、固位台阶、2 mm 滑动前盖和侧翼，全部由命名参数驱动。`scad/node_enclosure.scad` 只是占位盒。
-* **预留空间**：三个雷达模块、ESP32-S3-ETH-PoE 开发板、传感器窗口、电缆固定头、PoE 磁性元件和 PTC 加热器。在没有实测衰减的情况下，24 GHz 窗口前不得使用金属、导电或含碳材料。
-* **台架验收矩阵：** 射频、环境、电源、网络和摄像头检查，每项都有方法和建议的通过标准，另有待填写的摄像头兼容性表。
-* 制造前，记录开发板的精确外形、连接器、螺丝位置、天线禁区、热路径和防护目标（[设计输入](docs/DESIGN_INPUTS.md)）。
+* **雷达外壳是 `scad/node_enclosure_radar.scad`**（带 STL、3MF 和 AMF 导出以及两个切片项目：底座和滑动盖）：带遮阳罩、顶和底的 90 度转角底座、固定台阶、2 毫米的滑动前盖和侧翼，全部由命名参数驱动。
+* **用于其他四个节点的参数化盒子**（`scad/node_box.scad`，预设 `solar`、`electrical`、`alarm` 和 `hmi`）：墙壁、板子立柱、电缆格兰头孔、通风孔、盖下的防拆微动开关槽，以及报警主机的备用电池仓。
+* **预留空间**给三个雷达模块、ESP32-S3-ETH-PoE 板、传感器窗口、电缆格兰头、PoE 磁件和 PTC 加热器。未经测量，24 GHz 孔径前不要放置金属、导电或含碳的材料。
+* **台架验收矩阵：**射频、环境、电源、网络和摄像头检查，每项都有方法和建议的通过标准，另有待填写的摄像头兼容性表。
+* 制造之前，记录板子的确切轮廓、连接器、螺丝位置、天线净空区、热路径和防护目标（[设计输入](docs/DESIGN_INPUTS.md)）。
+
+## 🧩 在 A.R.M.O.R. 中的角色
+
+ARMOR-HARDWARE 是容纳各节点的部分。它包含雷达节点的外壳、太阳能、电气、报警和触摸屏节点的参数化盒子，以及说明原型上墙前如何评判的台架验收矩阵。它的设计是 [ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR)、[ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR)、[ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL)、[ARMOR-ALARM](https://github.com/JuanenRac/ARMOR-ALARM) 和 [ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI) 所运行的板子的起点。
 
 ## 📂 仓库结构
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (placeholder)
-├── EDA/     KiCad (empty)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the other four nodes)
+├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+└── images/ brand assets
 ```
 
 ## 🛠️ 开发环境
 
+**环境要求:** OpenSCAD 2021.01+ (to render the enclosures), a 3D printer (FDM) to try them
+
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm, hmi
 ```
 
-参见[验证边界](docs/VALIDATION.md)。预期的硬件许可证是 CERN-OHL-S-2.0；发布设计前请补上其完整文本。
+参见[验证边界](docs/VALIDATION.md)。预期的硬件许可证是 CERN-OHL-S-2.0；发布设计前请加入其完整文本。
 
 ## 🔗 相关项目
 
@@ -63,12 +80,14 @@ openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
 * **[ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR)** - 适用于 ESP32-S3 的现场节点固件，带三个雷达和自带网页面板
 * **[ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR)** - 太阳能逆变器与电池的协议，以及网关节点的消息
 * **[ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL)** - 电气节点：电表、电网读数消息和开关规则
+* **[ARMOR-ALARM](https://github.com/JuanenRac/ARMOR-ALARM)** - 报警节点与报警主机：防区、布防、延时、警笛和 PIN，有无服务器均可
 * **[ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI)** - 触摸面板：墙面屏幕上的系统状态、布防与确认，以及语音助手的所在
 * **[ARMOR-NETWORK](https://github.com/JuanenRac/ARMOR-NETWORK)** - 本地网络：其设备、互联网以及变化
 * **[ARMOR-SERVER](https://github.com/JuanenRac/ARMOR-SERVER)** - 中央协调器：遥测、报警、设备、太阳能读数和摄像头
 * **[ARMOR-STUDIO](https://github.com/JuanenRac/ARMOR-STUDIO)** - 网页控制台：摄像头、雷达、报警、太阳能和 2D/3D 场地设计器
 * **[ARMOR-ANDROID-CONTROL](https://github.com/JuanenRac/ARMOR-ANDROID-CONTROL)** - 带实时 2D/3D 雷达的 Android 操作员客户端
 * **[ARMOR-SERVER-AI](https://github.com/JuanenRac/ARMOR-SERVER-AI)** - 会解释决策且从不执行动作的视觉推理策略
+* **[ARMOR-VISION](https://github.com/JuanenRac/ARMOR-VISION)** - Jetson Orin NX 上的摄像头区域、遮罩与检测规则
 * **[ARMOR-VOICE-AI](https://github.com/JuanenRac/ARMOR-VOICE-AI)** - 带无法伪造确认的离线语音意图
 * **ARMOR-HARDWARE** (本仓库) - 外壳、电子器件和台架验收矩阵
 * **[ARMOR-DEVOPS](https://github.com/JuanenRac/ARMOR-DEVOPS)** - 部署、CM5 测试台、备份与 TLS

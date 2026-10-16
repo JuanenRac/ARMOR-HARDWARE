@@ -21,39 +21,56 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
   <img src="https://img.shields.io/badge/EDA-KiCad-314cb0.svg" alt="EDA">
-  <img src="https://img.shields.io/badge/Maturity-mechanical%20baseline-FFB020.svg" alt="Maturity">
+  <img src="https://img.shields.io/badge/Version-0.2.3-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
 ---
 
-**正直さのチェック - 今日動いているもの:** 筐体は**印刷可能な機械的な出発点であり、IP、RF、熱の認証ではありません。** 試作品では何も測定していません。[ベンチ受け入れマトリクス](docs/BENCH_ACCEPTANCE.md)のすべての行は*未テスト*です。
+**正直さのチェック - 今日動いているもの:** レーダーの筐体は**印刷できる機構の出発点であり、IP・RF・熱の等級ではなく**、太陽光・電気・警報・タッチパネルノード用のパラメトリックボックスは 4 つのプリセットで有効なソリッドとして描画されますが、**どれも印刷も計測もされていません**（基板の寸法はデータシート由来で、警報ノードのバッテリーベイは 12 V 7 Ah には小さすぎます。使うバッテリーに変更してください）。[ベンチ受入マトリクス](docs/BENCH_ACCEPTANCE.md)のすべての行は*未テスト*です。
 
 ---
 
+## 📋 ひと目で
+
+| | |
+|---|---|
+| バージョン | `0.2.3` |
+| 成熟度 | 機能する |
+| 技術 | OpenSCAD / KiCad |
+| 実機での確認 | まだありません：何も印刷・計測されておらず、4 つのボックスは有効なソリッドとして描画できるだけです |
+
 ## 🎯 概要
 
-* **本当の設計は `CAD/CARCASA_SENSORES.scad`**（STL、3MF、AMF のエクスポート付き）：ひさし、屋根、床を備えた 90 度のコーナーベース、保持用の段、2 mm のスライド式フロントカバーとサイドフラップ。すべて名前付きパラメーターで制御されます。`scad/node_enclosure.scad` は仮の箱にすぎません。
-* **予約された空間：** レーダーモジュール 3 基、ESP32-S3-ETH-PoE ボード、センサー窓、ケーブルグランド、PoE マグネティクス、PTC ヒーター。減衰を測定していない限り、24 GHz の開口の前に金属、導電性、カーボン入りの材料を置かないこと。
-* **ベンチ受け入れマトリクス：** 無線、環境、電源、ネットワーク、カメラの各チェックに、方法と提案する合格基準を付け、記入するカメラ互換性表も用意しています。
-* 製造の前に、ボードの正確な外形、コネクター、ネジ位置、アンテナの禁止領域、熱経路、防塵防水の目標を記録すること（[設計入力](docs/DESIGN_INPUTS.md)）。
+* **レーダーの筐体は `scad/node_enclosure_radar.scad`**（STL・3MF・AMF の出力と、ベースとスライドカバーの 2 つのスライサープロジェクト付き）：バイザー、屋根、床、固定用の段差、2 mm のスライド式フロントカバー、側面フラップを備えた 90 度コーナーのベースで、すべて名前付きパラメーターで動きます。
+* **他の 4 つのノード用のパラメトリックボックス**（`scad/node_box.scad`、プリセット `solar`、`electrical`、`alarm`、`hmi`）：壁、基板用のポスト、ケーブルグランド用の穴、通気口、蓋の下の改ざん検知マイクロスイッチ用ポケット、警報盤用のバックアップバッテリーベイ。
+* **予約された空間**：3 つのレーダーモジュール、ESP32-S3-ETH-PoE 基板、センサー窓、ケーブルグランド、PoE マグネティクス、PTC ヒーター用。24 GHz の開口の前には、測定せずに金属・導電性・カーボン入りの材料を置かないでください。
+* **ベンチ受入マトリクス：**無線、環境、電源、ネットワーク、カメラの検査それぞれに方法と合格基準の案があり、記入するカメラ互換表もあります。
+* 製作前に、基板の正確な外形、コネクター、ネジ位置、アンテナの禁止領域、熱経路、侵入保護の目標を記録します（[設計入力](docs/DESIGN_INPUTS.md)）。
+
+## 🧩 A.R.M.O.R. での役割
+
+ARMOR-HARDWARE はノードを収めるものです。レーダーノードの筐体、太陽光・電気・警報・タッチパネルノードのパラメトリックボックス、壁に付ける前に試作品をどう評価するかを示すベンチ受入マトリクスを含みます。その設計は、[ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR)、[ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR)、[ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL)、[ARMOR-ALARM](https://github.com/JuanenRac/ARMOR-ALARM)、[ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI) が動く基板の出発点です。
 
 ## 📂 リポジトリの構成
 
 ```text
 ARMOR-HARDWARE/
-├── CAD/     CARCASA_SENSORES.scad (+ stl, 3mf, amf)
-├── scad/    node_enclosure.scad (placeholder)
-├── EDA/     KiCad (empty)
-└── docs/    DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the other four nodes)
+├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+└── images/ brand assets
 ```
 
 ## 🛠️ 開発環境
 
+**必要なもの:** OpenSCAD 2021.01+ (to render the enclosures), a 3D printer (FDM) to try them
+
 ```powershell
-openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
+openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
+openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm, hmi
 ```
 
-[検証の境界](docs/VALIDATION.md)を参照。想定するハードウェアライセンスは CERN-OHL-S-2.0 です。設計を公開する前にその全文を追加してください。
+[検証の境界](docs/VALIDATION.md)を参照してください。想定しているハードウェアライセンスは CERN-OHL-S-2.0 で、設計を公開する前に全文を追加してください。
 
 ## 🔗 関連プロジェクト
 
@@ -63,12 +80,14 @@ openscad -o build/CARCASA_SENSORES.stl CAD/CARCASA_SENSORES.scad
 * **[ARMOR-RADAR](https://github.com/JuanenRac/ARMOR-RADAR)** - ESP32-S3 用フィールドノードのファームウェア。レーダー 3 基と独自の Web パネル付き
 * **[ARMOR-SOLAR](https://github.com/JuanenRac/ARMOR-SOLAR)** - 太陽光インバーターとバッテリーのプロトコル、およびゲートウェイノードのメッセージ
 * **[ARMOR-ELECTRICAL](https://github.com/JuanenRac/ARMOR-ELECTRICAL)** - 電気ノード：電力量計、電力網の計測メッセージ、開閉のルール
+* **[ARMOR-ALARM](https://github.com/JuanenRac/ARMOR-ALARM)** - 警報ノードと警報盤：警戒区域、警戒セット、遅延、サイレン、PIN。サーバーがあってもなくても
 * **[ARMOR-HMI](https://github.com/JuanenRac/ARMOR-HMI)** - タッチパネル：壁面ディスプレイでのシステム状態表示、警戒・確認操作、音声アシスタントの拠点
 * **[ARMOR-NETWORK](https://github.com/JuanenRac/ARMOR-NETWORK)** - ローカルネットワーク：機器、インターネット、そして変化
 * **[ARMOR-SERVER](https://github.com/JuanenRac/ARMOR-SERVER)** - 中央コーディネーター：テレメトリ、アラーム、デバイス、太陽光の測定値、カメラ
 * **[ARMOR-STUDIO](https://github.com/JuanenRac/ARMOR-STUDIO)** - Web コンソール：カメラ、レーダー、アラーム、太陽光発電、2D/3D サイト設計
 * **[ARMOR-ANDROID-CONTROL](https://github.com/JuanenRac/ARMOR-ANDROID-CONTROL)** - リアルタイム 2D/3D レーダー付きの Android オペレータークライアント
 * **[ARMOR-SERVER-AI](https://github.com/JuanenRac/ARMOR-SERVER-AI)** - 判断を説明し、決して動作しない視覚推論ポリシー
+* **[ARMOR-VISION](https://github.com/JuanenRac/ARMOR-VISION)** - Jetson Orin NX 向けのカメラのゾーン、マスク、検知ルール
 * **[ARMOR-VOICE-AI](https://github.com/JuanenRac/ARMOR-VOICE-AI)** - 偽造できない確認を備えたオフライン音声インテント
 * **ARMOR-HARDWARE** (このリポジトリ) - 筐体、電子部品、ベンチ受け入れマトリクス
 * **[ARMOR-DEVOPS](https://github.com/JuanenRac/ARMOR-DEVOPS)** - デプロイ、CM5 テストベンチ、バックアップ、TLS
