@@ -3,7 +3,7 @@
 // A screw-down box with a lid for the solar, electrical and alarm nodes (and a frame for the HMI): the walls, the posts for the board, the holes for the cables, a vent, a
 // pocket for a tamper micro-switch under the lid and, for the alarm panel, a bay for the backup battery.
 //
-// STATUS: a starting point. It has not been rendered or printed (no OpenSCAD in the place it was written) and the sizes of the boards are the ones from their data sheets, not
+// STATUS: a starting point. All four presets render as valid solids, but none has been printed, and the sizes of the boards are the ones from their data sheets, not
 // measured: check every number against the real board and print a first copy in draft quality before anything is mounted in it. It is not IP rated.
 // Use:  openscad -D 'part="box"' -D 'preset="alarm"' -o node_box_alarm.stl node_box.scad      (part: "box", "lid" or "both"; preset: "solar", "electrical", "alarm", "hmi")
 // ==========================================================
@@ -48,7 +48,7 @@ module box() {
     }
     // the posts of the lid screws, in the four corners
     for (x = [wall + 4, ow - wall - 4], y = [wall + 4, od - wall - 4]) difference() {
-        translate([x, y, wall]) cylinder(d = 8, h = oh - wall);
+        translate([x, y, wall]) cylinder(d = 9, h = oh - wall);   // 9 mm, so the post overlaps the walls by 0.5 mm instead of only touching them
         translate([x, y, oh - 12]) cylinder(d = screw_d - 0.4, h = 13);
     }
     // the posts of the board, on a grid that fits a board of the size of the preset (replace the holes with the real ones)
