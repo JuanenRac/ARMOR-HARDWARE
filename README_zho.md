@@ -20,14 +20,13 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/EDA-KiCad-314cb0.svg" alt="EDA">
-  <img src="https://img.shields.io/badge/Version-0.2.3-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.2.4-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
 ---
 
-**诚实性检查 - 今天真正能运行的部分:** 雷达外壳是**可打印的机械起点，不是 IP、射频或热学等级**；用于太阳能、电气、报警和触摸屏节点的参数化盒子在四个预设下都能渲染为有效实体，但**都没有打印或测量过**（板子尺寸来自数据手册，报警节点的电池仓放不下 12 V 7 Ah 的电池：请改成实际使用的电池）。[台架验收矩阵](docs/BENCH_ACCEPTANCE.md)的每一行都是*未测试*。
+**诚实性检查 - 今天真正能运行的部分:** 雷达外壳是**可打印的机械起点，不是 IP、射频或热学等级**；用于太阳能、电气和报警节点的参数化盒子由其源文件中的 `assert` 检查（板子放得下、电缆孔放得下、盖子避开立柱），但**都没有打印或测量过**（板子尺寸来自数据手册；触摸屏没有打印的盒子，沿用出厂外壳）。[台架验收矩阵](docs/BENCH_ACCEPTANCE.md)的每一行都是*未测试*。
 
 ---
 
@@ -35,16 +34,16 @@
 
 | | |
 |---|---|
-| 版本 | `0.2.3` |
+| 版本 | `0.2.4` |
 | 成熟度 | 可用 |
-| 技术栈 | OpenSCAD / KiCad |
-| 真实硬件 | 暂无：没有打印或测量过任何东西；四个盒子只是能渲染为有效实体 |
+| 技术栈 | OpenSCAD |
+| 真实硬件 | 暂无：没有任何东西被打印或测量过；三个盒子只由源文件中的 `assert` 检查 |
 
 ## 🎯 概述
 
 * **雷达外壳是 `scad/node_enclosure_radar.scad`**（带 STL、3MF 和 AMF 导出以及两个切片项目：底座和滑动盖）：带遮阳罩、顶和底的 90 度转角底座、固定台阶、2 毫米的滑动前盖和侧翼，全部由命名参数驱动。
-* **用于其他四个节点的参数化盒子**（`scad/node_box.scad`，预设 `solar`、`electrical`、`alarm` 和 `hmi`）：墙壁、板子立柱、电缆格兰头孔、通风孔、盖下的防拆微动开关槽，以及报警主机的备用电池仓。
-* **预留空间**给三个雷达模块、ESP32-S3-ETH-PoE 板、传感器窗口、电缆格兰头、PoE 磁件和 PTC 加热器。未经测量，24 GHz 孔径前不要放置金属、导电或含碳的材料。
+* **用于太阳能、电气和报警节点的参数化盒子**（`scad/node_box.scad`，预设 `solar`、`electrical` 和 `alarm`）：墙壁、板子立柱、电缆格兰头孔、通风孔、盖下的防拆微动开关槽，以及带环形唇边的盖子。这是低压盒子，不是市电布线的外壳。
+* **支架**用于三个雷达模块、一个电缆格兰头和排水孔。台架矩阵要测试的 ESP32-S3-ETH-PoE 板、PoE 磁件、PTC 加热器和光传感器窗口还没有预留空间。未经测量，24 GHz 孔径前不要放置金属、导电或含碳的材料。
 * **台架验收矩阵：**射频、环境、电源、网络和摄像头检查，每项都有方法和建议的通过标准，另有待填写的摄像头兼容性表。
 * 制造之前，记录板子的确切轮廓、连接器、螺丝位置、天线净空区、热路径和防护目标（[设计输入](docs/DESIGN_INPUTS.md)）。
 
@@ -56,7 +55,7 @@ ARMOR-HARDWARE 是容纳各节点的部分。它包含雷达节点的外壳、�
 
 ```text
 ARMOR-HARDWARE/
-├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the other four nodes)
+├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the solar, electrical and alarm nodes)
 ├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
 └── images/ brand assets
 ```
@@ -67,7 +66,7 @@ ARMOR-HARDWARE/
 
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
-openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm, hmi
+openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
 ```
 
 参见[验证边界](docs/VALIDATION.md)。预期的硬件许可证是 CERN-OHL-S-2.0；发布设计前请加入其完整文本。

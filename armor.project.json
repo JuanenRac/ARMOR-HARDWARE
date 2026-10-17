@@ -2,12 +2,11 @@
   "schema_version": "1.0",
   "ecosystem": "A.R.M.O.R.",
   "name": "ARMOR-HARDWARE",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "role": "Open hardware and parametric enclosure designs",
-  "stack": "OpenSCAD / KiCad",
+  "stack": "OpenSCAD",
   "technologies": [
     "OpenSCAD",
-    "KiCad",
     "PoE",
     "mmWave"
   ],
@@ -15,7 +14,7 @@
   "maturity": "functional",
   "family": "Hardware",
   "parent": "ARMOR-RADAR",
-  "native_version": "0.2.3",
-  "build": "OpenSCAD render of scad/node_enclosure_radar.scad",
+  "native_version": "0.2.4",
+  "build": "OpenSCAD render of every piece: the radar base and cover, and the box and lid of the three node presets",
   "notes": "Provides a parametric enclosure concept; RF, ingress and thermal validation require a physical prototype."
 }
