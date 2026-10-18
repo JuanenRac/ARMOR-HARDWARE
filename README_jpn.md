@@ -57,6 +57,7 @@ ARMOR-HARDWARE はノードを収めるものです。レーダーノードの�
 ARMOR-HARDWARE/
 ├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the solar, electrical and alarm nodes)
 ├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── tests/  checks that need no OpenSCAD: the sources, the presets of the box, the model files and the numbers the documents quote
 └── images/ brand assets
 ```
 
@@ -67,6 +68,7 @@ ARMOR-HARDWARE/
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python -m unittest discover -s tests   # the checks that need no OpenSCAD
 ```
 
 [検証の境界](docs/VALIDATION.md)を参照してください。想定しているハードウェアライセンスは CERN-OHL-S-2.0 で、設計を公開する前に全文を追加してください。

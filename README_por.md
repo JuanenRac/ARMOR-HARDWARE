@@ -57,6 +57,7 @@ O ARMOR-HARDWARE é o que contém os nós. Leva a caixa do nó radar, a caixa pa
 ARMOR-HARDWARE/
 ├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the solar, electrical and alarm nodes)
 ├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
+├── tests/  checks that need no OpenSCAD: the sources, the presets of the box, the model files and the numbers the documents quote
 └── images/ brand assets
 ```
 
@@ -67,6 +68,7 @@ ARMOR-HARDWARE/
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python -m unittest discover -s tests   # the checks that need no OpenSCAD
 ```
 
 Veja o [limite de validação](docs/VALIDATION.md). A licença de hardware prevista é CERN-OHL-S-2.0; acrescente o seu texto completo antes de publicar os desenhos.
