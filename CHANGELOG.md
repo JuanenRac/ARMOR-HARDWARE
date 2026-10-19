@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented here.
 
+## [0.2.5] - Inputs for the next solar base board: the Pylontech console, the wake output and the dry contacts
+
+- **A note for the next revision of the solar base board:** the pins of the Pylontech console port, the voltage that wakes a sleeping battery and a future output for it, the dry contacts to read with opto-isolated inputs (never driven), and the RS485 and CAN pins and the DIP switch that sets the speed. It is taken from the manuals and not measured on our board.
+
 ## [0.2.4] - A box whose lid closes, and documents that tell the truth
 
 - **`scad/node_box.scad`:** the lid's lip is now a ring with a gap for each of the four screw posts (it was a solid plate that sat on the post heads, 2 mm above the rim, so the lid could not close). The tamper micro-switch pocket is two walls that hold a switch of 20 x 10 x 6 mm, not a solid block in the lip's way. Asserts in the source stop the render when the board and its posts do not fit, a cable hole is cut by a wall or a corner post, or the lip is not a ring.

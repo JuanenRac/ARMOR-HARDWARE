@@ -49,3 +49,13 @@ manufacturer's statements, not measurements of this project.
 
 The electrical node's base board measures mains voltage (see ARMOR-ELECTRICAL). `scad/node_box.scad` is a printed SELV box: it has no barrier between a mains zone and a low-voltage zone, no creepage and clearance distances and no flame-retardant (V-0) material, so it is **not** an enclosure for mains wiring.
 Put the mains side in a certified enclosure or on a DIN rail, and use the printed box only for the low-voltage part, or separate the zones physically and print in a V-0 rated material.
+
+## The solar node and Pylontech batteries: inputs for a next base board
+
+What the makers' manuals say about the connectors of a Pylontech battery, written down for the next revision of the solar base board. It is taken from the manuals, not measured on our board; check every pin against the battery in hand before wiring.
+
+* **Console port (RJ45, RS232 levels):** pin 3 is the battery's transmit (to the node's receive), pin 6 its receive (from the node's transmit), pin 8 is ground. The console of recent batteries runs at 115200 baud; an old unit may say another speed (19200) in its `info`. Some batteries (the US2000B) use an RJ11 for it, and an RJ11 cable may carry only two wires.
+* **Waking a sleeping battery:** pins 4 and 5 of the console port take +5 to 12 V (5 to 15 mA) for at least half a second, with ground on pin 5; the US2000C, US3000C, US5000 and UP5000 support it. A future revision can add an **output for it**: a small load switch or a transistor from a protected 5 V rail, current-limited, that the firmware pulses only when a battery has stopped answering. Nothing is driven today.
+* **Dry contacts (the *Contact* RJ45 port):** output 1 means *stop charge*, output 2 *stop discharge* and output 3 a *BMS error*; they are passive signals of at most 25 V. A future revision can read them with **opto-isolated inputs** (an opto-coupler with a series resistor sized for 25 V and a pull-up on the node's side), so the protection state is known independently of the console. They are inputs only: input 1 of the battery (*switch the battery off*) is never driven.
+* **RS485 and CAN:** the RS485 pins are 7 and 8 (A and B) and the CAN pins 4, 5 and 6 (H, L and ground) of their own ports; the RS485 speed is set by the battery's DIP switch 1 (on: 9600, off: 115200; restart the battery after changing it) and CAN runs at 500 kbit/s.
+* **Level converter:** a MAX3232 powered from 3.3 V needs its five 0.1 uF capacitors; the base board already has one per pair of sockets.
