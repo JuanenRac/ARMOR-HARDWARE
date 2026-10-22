@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+- The banner follows the animated style of the ecosystem banners, with the name, the kind and the technologies of the project.
+
 ## [0.2.5] - Inputs for the next solar base board: the Pylontech console, the wake output and the dry contacts
 
 - **A note for the next revision of the solar base board:** the pins of the Pylontech console port, the voltage that wakes a sleeping battery and a future output for it, the dry contacts to read with opto-isolated inputs (never driven), and the RS485 and CAN pins and the DIP switch that sets the speed. It is taken from the manuals and not measured on our board.
