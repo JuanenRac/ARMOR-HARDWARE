@@ -63,7 +63,7 @@ ARMOR-HARDWARE/
 
 ## 🛠️ Ambiente di sviluppo
 
-**Requisiti:** OpenSCAD 2021.01+ (to render the enclosures), a 3D printer (FDM) to try them
+**Requisiti:** OpenSCAD 2021.01+ (per generare gli involucri), una stampante 3D (FDM) per provarle
 
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
@@ -87,6 +87,7 @@ Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware previs
 * **[ARMOR-SERVER](https://github.com/JuanenRac/ARMOR-SERVER)** - Coordinatore centrale: telemetria, allarmi, dispositivi, letture solari e telecamere
 * **[ARMOR-STUDIO](https://github.com/JuanenRac/ARMOR-STUDIO)** - Console web: telecamere, radar, allarmi, energia solare e progettista del sito 2D/3D
 * **[ARMOR-ANDROID-CONTROL](https://github.com/JuanenRac/ARMOR-ANDROID-CONTROL)** - Client Android dell'operatore con radar 2D/3D in tempo reale
+* **[ARMOR-IOS-CONTROL](https://github.com/JuanenRac/ARMOR-IOS-CONTROL)** - Client operatore per iPhone
 * **[ARMOR-SERVER-AI](https://github.com/JuanenRac/ARMOR-SERVER-AI)** - Politica di inferenza visiva che spiega le sue decisioni e non agisce mai
 * **[ARMOR-VISION](https://github.com/JuanenRac/ARMOR-VISION)** - Zone delle telecamere, maschere e regole di rilevamento per la Jetson Orin NX
 * **[ARMOR-VOICE-AI](https://github.com/JuanenRac/ARMOR-VOICE-AI)** - Intenti vocali offline con una conferma impossibile da falsificare
