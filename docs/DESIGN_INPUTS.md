@@ -47,7 +47,7 @@ manufacturer's statements, not measurements of this project.
 
 ## The electrical node and mains voltage
 
-The electrical node's base board measures mains voltage (see ARMOR-ELECTRICAL). `scad/node_box.scad` is a printed SELV box: it has no barrier between a mains zone and a low-voltage zone, no creepage and clearance distances and no flame-retardant (V-0) material, so it is **not** an enclosure for mains wiring.
+The electrical node's base board measures mains voltage (see ARMOR-NODE-ELECTRICAL). `scad/node_box.scad` is a printed SELV box: it has no barrier between a mains zone and a low-voltage zone, no creepage and clearance distances and no flame-retardant (V-0) material, so it is **not** an enclosure for mains wiring.
 Put the mains side in a certified enclosure or on a DIN rail, and use the printed box only for the low-voltage part, or separate the zones physically and print in a V-0 rated material.
 
 ## The solar node and Pylontech batteries: inputs for a next base board

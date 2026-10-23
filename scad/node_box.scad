@@ -4,7 +4,7 @@
 // micro-switch under the lid. The lid has a ring-shaped lip that goes inside the walls and leaves the four corner posts free, so it rests on the rim of the box and on the posts.
 //
 // There is no preset for the touch panel: the Waveshare ESP32-S3-Touch-LCD-7C-BOX comes in its own enclosure, and a window for the 7-inch screen has to be cut from its
-// official drawing. There is no battery bay either: the alarm node is powered over PoE from a switch behind a UPS, and the siren has its own battery (see ARMOR-ALARM).
+// official drawing. There is no battery bay either: the alarm node is powered over PoE from a switch behind a UPS, and the siren has its own battery (see ARMOR-NODE-ALARM).
 //
 // STATUS: a starting point. The three presets are checked by the asserts below (the board fits, the cable holes fit, the lid clears the posts), but none has been printed, and
 // the sizes of the boards are the ones from their data sheets, not measured: check every number against the real board and print a first copy in draft quality before anything

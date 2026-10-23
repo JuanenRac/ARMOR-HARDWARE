@@ -13,7 +13,7 @@
   "deployment_target": "Outdoor field nodes",
   "maturity": "functional",
   "family": "Hardware",
-  "parent": "ARMOR-RADAR",
+  "parent": "ARMOR-NODE-RADAR",
   "native_version": "0.2.5",
   "build": "OpenSCAD render of every piece: the radar base and cover, and the box and lid of the three node presets",
   "notes": "Provides a parametric enclosure concept; RF, ingress and thermal validation require a physical prototype."
