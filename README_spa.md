@@ -71,6 +71,7 @@ ARMOR-HARDWARE/
 ├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the solar, electrical and alarm nodes)
 ├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
 ├── tests/  checks that need no OpenSCAD: the sources, the presets of the box, the model files and the numbers the documents quote
+├── tools/  the shared CI checks (armor_ci_validate.py, armor_project_tool.py, _armor_readme_parity.py)
 └── images/ brand assets
 ```
 
