@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Version-0.2.5-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -34,7 +34,7 @@
 
 | | |
 |---|---|
-| Versão | `0.2.5` |
+| Versão | `0.2.6` |
 | Maturidade | Funcional |
 | Tecnologia | OpenSCAD |
 | Em hardware real | Nenhum ainda: nada foi impresso nem medido; as três caixas só são verificadas pelos `assert` do seu código |

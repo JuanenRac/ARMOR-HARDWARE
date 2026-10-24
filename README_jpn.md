@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Version-0.2.5-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -34,7 +34,7 @@
 
 | | |
 |---|---|
-| バージョン | `0.2.5` |
+| バージョン | `0.2.6` |
 | 成熟度 | 機能する |
 | 技術 | OpenSCAD |
 | 実機での確認 | まだありません：何も印刷も計測もされていません。3 つのボックスはソースの `assert` で検査されているだけです |

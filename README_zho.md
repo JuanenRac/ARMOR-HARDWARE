@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Version-0.2.5-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -34,7 +34,7 @@
 
 | | |
 |---|---|
-| 版本 | `0.2.5` |
+| 版本 | `0.2.6` |
 | 成熟度 | 可用 |
 | 技术栈 | OpenSCAD |
 | 真实硬件 | 暂无：没有任何东西被打印或测量过；三个盒子只由源文件中的 `assert` 检查 |
