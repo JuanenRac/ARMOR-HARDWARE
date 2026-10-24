@@ -39,6 +39,19 @@
 | Stack | OpenSCAD |
 | On real hardware | None yet: nothing has been printed or measured; the three boxes are only checked by the asserts of their source |
 
+## 🚦 Project status
+
+Each line is one part of this repository and the light says how far it is today. It is written from what the repository can show (tests, builds, runs), not from what is planned.
+
+🟢 Done and verified · 🟡 Works, with known limits · 🟠 Partly done or not verified yet · 🔴 Not done or not working
+
+| Area | State | What it means here |
+|---|---|---|
+| Software | 🟡 | The radar enclosure and the parametric box of the solar, electrical and alarm nodes are OpenSCAD sources; the radar box is a printable starting point, not an IP, RF or thermal rating. |
+| Tests | 🟡 | The boxes are checked by the asserts of their source (the board fits, the cable holes fit, the lid clears the posts); none has been printed or measured. |
+| Hardware | 🔴 | Nothing has been printed or measured, the board sizes come from data sheets, and every row of the bench acceptance matrix is not tested. |
+| Documentation | 🟢 | Eight languages, the design inputs and the bench acceptance matrix are written and up to date. |
+
 ## 🎯 Overview
 
 * **The radar enclosure is `scad/node_enclosure_radar.scad`** (with STL, 3MF and AMF exports and two slicer projects, the base and the sliding cover): a 90-degree corner base with a visor, roof and floor, retaining steps, a sliding 2 mm front cover and side flaps, all driven by named parameters.
