@@ -1,0 +1,366 @@
+{
+  "repo": "ARMOR-HARDWARE",
+  "ecosystem": "armor",
+  "svg": "en",
+  "cards": [
+    {
+      "name": "scad/",
+      "tree": {
+        "en": "the enclosures and their model files",
+        "es": "las cajas y sus ficheros de modelo",
+        "de": "die Gehäuse und ihre Modelldateien",
+        "fr": "les boîtiers et leurs fichiers de modèle",
+        "it": "gli involucri e i loro file di modello",
+        "ja": "筐体とそのモデルファイル",
+        "zh": "外壳及其模型文件",
+        "pt": "as caixas e os seus ficheiros de modelo"
+      },
+      "span": 3,
+      "accent": "a",
+      "rows": [
+        {
+          "name": "node_enclosure_radar.scad",
+          "desc": {
+            "en": "the radar node enclosure, driven by named parameters",
+            "es": "la caja del nodo radar, guiada por parámetros con nombre",
+            "de": "das Gehäuse des Radarknotens, gesteuert über benannte Parameter",
+            "fr": "le boîtier du nœud radar, piloté par des paramètres nommés",
+            "it": "l'involucro del nodo radar, guidato da parametri con nome",
+            "ja": "名前付きパラメーターで動くレーダーノードの筐体",
+            "zh": "由命名参数驱动的雷达节点外壳",
+            "pt": "a caixa do nó radar, guiada por parâmetros com nome"
+          }
+        },
+        {
+          "name": "node_enclosure_radar.stl .amf .3mf",
+          "desc": {
+            "en": "the exports of the radar enclosure",
+            "es": "las exportaciones de la caja del radar",
+            "de": "die Exporte des Radargehäuses",
+            "fr": "les exports du boîtier du radar",
+            "it": "le esportazioni dell'involucro del radar",
+            "ja": "レーダー筐体のエクスポート",
+            "zh": "雷达外壳的导出文件",
+            "pt": "as exportações da caixa do radar"
+          },
+          "tree_name": "node_enclosure_radar.stl .amf .3mf"
+        },
+        {
+          "name": "node_enclosure_radar_1.3mf  _2.3mf",
+          "desc": {
+            "en": "two slicer projects: the base and the sliding cover",
+            "es": "dos proyectos de laminador: la base y la tapa deslizante",
+            "de": "zwei Slicer-Projekte: die Basis und die Schiebeabdeckung",
+            "fr": "deux projets de trancheur : la base et le couvercle coulissant",
+            "it": "due progetti di slicer: la base e il coperchio scorrevole",
+            "ja": "スライサープロジェクト 2 つ：ベースとスライドカバー",
+            "zh": "两个切片项目：底座和滑盖",
+            "pt": "dois projetos de fatiador: a base e a tampa deslizante"
+          },
+          "tree_name": "node_enclosure_radar_1.3mf node_enclosure_radar_2.3mf"
+        },
+        {
+          "name": "node_box.scad",
+          "desc": {
+            "en": "the parametric box of the solar, electrical and alarm nodes",
+            "es": "la caja paramétrica de los nodos solar, eléctrico y de alarma",
+            "de": "die parametrische Box der Solar-, Elektro- und Alarmknoten",
+            "fr": "la boîte paramétrique des nœuds solaire, électrique et alarme",
+            "it": "la scatola parametrica dei nodi solare, elettrico e allarme",
+            "ja": "ソーラー・電気・アラームノード用のパラメトリックな箱",
+            "zh": "太阳能、电气和报警节点的参数化盒子",
+            "pt": "a caixa paramétrica dos nós solar, elétrico e de alarme"
+          }
+        }
+      ]
+    },
+    {
+      "name": "docs/",
+      "span": 1,
+      "tree": {
+        "en": "the guides of this repository",
+        "es": "las guías de este repositorio",
+        "de": "die Anleitungen dieses Repositorys",
+        "fr": "les guides de ce dépôt",
+        "it": "le guide di questo repository",
+        "ja": "このリポジトリのガイド",
+        "zh": "本仓库的指南",
+        "pt": "os guias deste repositório"
+      },
+      "rows": [
+        {
+          "name": "DESIGN_INPUTS.md",
+          "desc": {
+            "en": "what to record before fabrication",
+            "es": "qué anotar antes de fabricar",
+            "de": "was vor der Fertigung festzuhalten ist",
+            "fr": "à noter avant la fabrication",
+            "it": "cosa registrare prima della fabbricazione",
+            "ja": "製造前に記録すること",
+            "zh": "制造前要记录的内容",
+            "pt": "o que registar antes de fabricar"
+          }
+        },
+        {
+          "name": "VALIDATION.md",
+          "desc": {
+            "en": "the validation boundary",
+            "es": "el límite de la validación",
+            "de": "die Validierungsgrenze",
+            "fr": "la limite de la validation",
+            "it": "il limite della validazione",
+            "ja": "検証の境界",
+            "zh": "验证的边界",
+            "pt": "o limite da validação"
+          }
+        },
+        {
+          "name": "BENCH_ACCEPTANCE.md",
+          "desc": {
+            "en": "the bench acceptance matrix",
+            "es": "la matriz de aceptación en banco",
+            "de": "die Prüfstand-Abnahmematrix",
+            "fr": "la matrice d'acceptation sur banc",
+            "it": "la matrice di accettazione al banco",
+            "ja": "ベンチ受け入れマトリクス",
+            "zh": "台架验收矩阵",
+            "pt": "a matriz de aceitação em bancada"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tests/",
+      "span": 1,
+      "tree": {
+        "en": "the tests",
+        "es": "las pruebas",
+        "de": "die Tests",
+        "fr": "les tests",
+        "it": "i test",
+        "ja": "テスト",
+        "zh": "测试",
+        "pt": "os testes"
+      },
+      "rows": [
+        {
+          "name": "test_enclosure_sources.py",
+          "desc": {
+            "en": "22 checks that need no OpenSCAD",
+            "es": "22 comprobaciones sin OpenSCAD",
+            "de": "22 Prüfungen ohne OpenSCAD",
+            "fr": "22 contrôles sans OpenSCAD",
+            "it": "22 verifiche senza OpenSCAD",
+            "ja": "OpenSCAD 不要の 22 項目",
+            "zh": "22 项无需 OpenSCAD 的检查",
+            "pt": "22 verificações sem OpenSCAD"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tools/",
+      "span": 1,
+      "tree": {
+        "en": "the shared CI checks and project tooling",
+        "es": "las comprobaciones de CI compartidas y las herramientas del proyecto",
+        "de": "die gemeinsamen CI-Prüfungen und Projektwerkzeuge",
+        "fr": "les contrôles CI partagés et les outils du projet",
+        "it": "i controlli CI condivisi e gli strumenti del progetto",
+        "ja": "共通の CI チェックとプロジェクトツール",
+        "zh": "共享的 CI 检查和项目工具",
+        "pt": "as verificações de CI partilhadas e as ferramentas do projeto"
+      },
+      "rows": [
+        {
+          "name": "armor_ci_validate.py",
+          "desc": {
+            "en": "the CI validation",
+            "es": "la validación de CI",
+            "de": "die CI-Prüfung",
+            "fr": "la validation CI",
+            "it": "la validazione CI",
+            "ja": "CI 検証",
+            "zh": "CI 验证",
+            "pt": "a validação de CI"
+          }
+        }
+      ]
+    },
+    {
+      "name": ".github/ images/",
+      "kind": "group",
+      "span": 3,
+      "columns": 2,
+      "rows": [
+        {
+          "name": ".github/",
+          "desc": {
+            "en": "CI workflow, issue and pull-request templates",
+            "es": "flujo de CI y plantillas de issues y pull requests",
+            "de": "CI-Workflow sowie Vorlagen für Issues und Pull Requests",
+            "fr": "workflow CI et modèles d'issues et de pull requests",
+            "it": "workflow CI e modelli per issue e pull request",
+            "ja": "CI ワークフローと Issue・Pull Request のテンプレート",
+            "zh": "CI 工作流以及 Issue 和 Pull Request 模板",
+            "pt": "fluxo de CI e modelos de issues e pull requests"
+          }
+        },
+        {
+          "name": "images/",
+          "desc": {
+            "en": "banner, icon and the two pictures of this README",
+            "es": "banner, icono y las dos imágenes de este README",
+            "de": "Banner, Symbol und die zwei Bilder dieses READMEs",
+            "fr": "bannière, icône et les deux images de ce README",
+            "it": "banner, icona e le due immagini di questo README",
+            "ja": "バナー、アイコン、この README の 2 つの図",
+            "zh": "横幅、图标和本 README 的两幅图",
+            "pt": "faixa, ícone e as duas imagens deste README"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "Files at the root",
+        "es": "Ficheros en la raíz",
+        "de": "Dateien im Wurzelverzeichnis",
+        "fr": "Fichiers à la racine",
+        "it": "File nella radice",
+        "ja": "ルートのファイル",
+        "zh": "根目录的文件",
+        "pt": "Ficheiros na raiz"
+      },
+      "kind": "group",
+      "span": 3,
+      "columns": 2,
+      "rows": [
+        {
+          "name": "build.sh  build.bat",
+          "tree_name": "build.sh build.bat",
+          "desc": {
+            "en": "build through the shared project workflow",
+            "es": "compilar con el flujo de proyecto compartido",
+            "de": "Build über den gemeinsamen Projekt-Workflow",
+            "fr": "build par le flux de projet partagé",
+            "it": "build tramite il flusso di progetto condiviso",
+            "ja": "共通のプロジェクトワークフローでビルド",
+            "zh": "通过共享的项目工作流构建",
+            "pt": "compilar pelo fluxo de projeto partilhado"
+          }
+        },
+        {
+          "name": "test.sh  test.bat",
+          "tree_name": "test.sh test.bat",
+          "desc": {
+            "en": "run the tests through the shared workflow",
+            "es": "ejecutar las pruebas con el flujo compartido",
+            "de": "Tests über den gemeinsamen Workflow ausführen",
+            "fr": "lancer les tests par le flux partagé",
+            "it": "eseguire i test tramite il flusso condiviso",
+            "ja": "共通のワークフローでテストを実行",
+            "zh": "通过共享工作流运行测试",
+            "pt": "executar os testes pelo fluxo partilhado"
+          }
+        },
+        {
+          "name": "run.sh  run.bat",
+          "tree_name": "run.sh run.bat",
+          "desc": {
+            "en": "start through the shared project workflow",
+            "es": "arrancar con el flujo de proyecto compartido",
+            "de": "Start über den gemeinsamen Projekt-Workflow",
+            "fr": "démarrer par le flux de projet partagé",
+            "it": "avvio tramite il flusso di progetto condiviso",
+            "ja": "共通のプロジェクトワークフローで起動",
+            "zh": "通过共享的项目工作流启动",
+            "pt": "arrancar pelo fluxo de projeto partilhado"
+          }
+        },
+        {
+          "name": "armor.project.json",
+          "desc": {
+            "en": "manifest: version, role, maturity, build command",
+            "es": "manifiesto: versión, rol, madurez, comando de build",
+            "de": "Manifest: Version, Rolle, Reifegrad, Build-Befehl",
+            "fr": "manifeste : version, rôle, maturité, commande de build",
+            "it": "manifesto: versione, ruolo, maturità, comando di build",
+            "ja": "マニフェスト：バージョン、役割、成熟度、ビルドコマンド",
+            "zh": "清单：版本、角色、成熟度、构建命令",
+            "pt": "manifesto: versão, função, maturidade, comando de build"
+          }
+        },
+        {
+          "name": "CHANGELOG.md",
+          "desc": {
+            "en": "what changed in each version",
+            "es": "qué cambió en cada versión",
+            "de": "was sich in jeder Version geändert hat",
+            "fr": "ce qui a changé à chaque version",
+            "it": "cosa è cambiato in ogni versione",
+            "ja": "各バージョンの変更点",
+            "zh": "每个版本的变化",
+            "pt": "o que mudou em cada versão"
+          }
+        },
+        {
+          "name": "SECURITY.md  SUPPORT.md  LICENSE",
+          "tree_name": "SECURITY.md SUPPORT.md LICENSE",
+          "desc": {
+            "en": "security policy, support and license",
+            "es": "política de seguridad, soporte y licencia",
+            "de": "Sicherheitsrichtlinie, Support und Lizenz",
+            "fr": "politique de sécurité, support et licence",
+            "it": "politica di sicurezza, supporto e licenza",
+            "ja": "セキュリティポリシー、サポート、ライセンス",
+            "zh": "安全策略、支持和许可证",
+            "pt": "política de segurança, apoio e licença"
+          }
+        },
+        {
+          "name": "CONTRIBUTING.md  CODE_OF_CONDUCT.md",
+          "tree_name": "CONTRIBUTING.md CODE_OF_CONDUCT.md",
+          "desc": {
+            "en": "how to contribute and the code of conduct",
+            "es": "cómo contribuir y el código de conducta",
+            "de": "Mitwirkung und Verhaltenskodex",
+            "fr": "comment contribuer et le code de conduite",
+            "it": "come contribuire e il codice di condotta",
+            "ja": "貢献方法と行動規範",
+            "zh": "如何贡献与行为准则",
+            "pt": "como contribuir e o código de conduta"
+          }
+        },
+        {
+          "name": "build-test.sh  build-test.bat",
+          "desc": {
+            "en": "run the tests through the shared workflow",
+            "es": "ejecutar las pruebas con el flujo compartido",
+            "de": "Tests über den gemeinsamen Workflow ausführen",
+            "fr": "lancer les tests par le flux partagé",
+            "it": "eseguire i test tramite il flusso condiviso",
+            "ja": "共通のワークフローでテストを実行",
+            "zh": "通过共享工作流运行测试",
+            "pt": "executar os testes pelo fluxo partilhado"
+          },
+          "tree_name": "build-test.sh build-test.bat"
+        },
+        {
+          "name": ".gitattributes  .gitignore",
+          "desc": {
+            "en": "Git settings",
+            "es": "ajustes de Git",
+            "de": "Git-Einstellungen",
+            "fr": "réglages Git",
+            "it": "impostazioni di Git",
+            "ja": "Git の設定",
+            "zh": "Git 设置",
+            "pt": "definições do Git"
+          },
+          "tree_name": ".gitattributes .gitignore"
+        }
+      ]
+    }
+  ]
+}

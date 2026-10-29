@@ -1,0 +1,128 @@
+{
+  "repo": "ARMOR-HARDWARE",
+  "ecosystem": "armor",
+  "tagline": "The enclosures of the nodes and the bench matrix that says how a prototype is judged before it goes on a wall.",
+  "description": "ARMOR-HARDWARE holds the OpenSCAD enclosure of the radar node, the parametric box of the solar, electrical and alarm nodes and the bench acceptance matrix. The boards of the node repositories go inside; nothing has been printed or measured yet.",
+  "columns": [
+    "WHAT GOES INSIDE",
+    "THIS REPOSITORY",
+    "STILL MISSING"
+  ],
+  "nodes": [
+    {
+      "id": "radar",
+      "column": 0,
+      "level": "external",
+      "title": "ARMOR-NODE-RADAR",
+      "lines": [
+        "ESP32-S3-ETH-PoE or Wi-Fi",
+        "board and three LD2450",
+        "radar modules"
+      ]
+    },
+    {
+      "id": "others",
+      "column": 0,
+      "level": "external",
+      "title": "Solar, electrical, alarm",
+      "lines": [
+        "the boards of the solar,",
+        "electrical and alarm nodes:",
+        "low voltage, never mains"
+      ]
+    },
+    {
+      "id": "encl",
+      "column": 1,
+      "level": "tested",
+      "title": "node_enclosure_radar.scad",
+      "lines": [
+        "90-degree corner base with a visor,",
+        "sliding 2 mm cover, three module",
+        "holders; STL, 3MF and AMF"
+      ],
+      "code": [
+        "scad/node_enclosure_radar.scad",
+        "scad/node_enclosure_radar.stl"
+      ]
+    },
+    {
+      "id": "box",
+      "column": 1,
+      "level": "tested",
+      "title": "node_box.scad",
+      "lines": [
+        "presets solar, electrical, alarm:",
+        "posts, cable glands, vent, tamper",
+        "pocket, lid with a ring lip"
+      ],
+      "code": [
+        "scad/node_box.scad::preset must be solar, electrical or alarm"
+      ]
+    },
+    {
+      "id": "bench",
+      "column": 1,
+      "level": "contract",
+      "title": "docs/BENCH_ACCEPTANCE.md",
+      "lines": [
+        "radio, environment, power, network",
+        "and camera checks, each with a",
+        "method and a proposed pass criterion"
+      ],
+      "code": [
+        "docs/BENCH_ACCEPTANCE.md",
+        "docs/DESIGN_INPUTS.md",
+        "docs/VALIDATION.md"
+      ]
+    },
+    {
+      "id": "volumes",
+      "column": 2,
+      "level": "config",
+      "title": "Volumes not drawn yet",
+      "lines": [
+        "PoE magnetics, PTC heater,",
+        "light-sensor window, the",
+        "ESP32-S3-ETH-PoE board"
+      ]
+    },
+    {
+      "id": "print",
+      "column": 2,
+      "level": "untested",
+      "title": "Print and measure",
+      "lines": [
+        "nothing printed, nothing",
+        "measured: every row of the",
+        "matrix is not tested"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "radar",
+      "to": "encl",
+      "label": "fits",
+      "level": "tested"
+    },
+    {
+      "from": "others",
+      "to": "box",
+      "label": "fits",
+      "level": "tested"
+    },
+    {
+      "from": "box",
+      "to": "volumes",
+      "label": "",
+      "level": "config"
+    },
+    {
+      "from": "bench",
+      "to": "print",
+      "label": "",
+      "level": "untested"
+    }
+  ]
+}

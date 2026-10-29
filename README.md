@@ -18,8 +18,9 @@
 ### Enclosures, electronics and the bench acceptance matrix
 
 <p align="center">
-  <img src="https://img.shields.io/badge/License-GPL%203.0-blue.svg" alt="GPL 3.0">
+  <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
+  <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
@@ -36,8 +37,15 @@
 |---|---|
 | Version | `0.2.6` |
 | Maturity | Functional |
-| Stack | OpenSCAD |
+| Role | Enclosures, electronics and the bench acceptance matrix (family: Hardware, parent: ARMOR-NODE-RADAR) |
+| Stack | OpenSCAD 2021.01+ (CAD), Python 3.11+ (checks) |
+| Tests | 22 (`python -m unittest discover -s tests`) |
+| Designs | The radar enclosure and the box of 3 node presets (solar, electrical, alarm) |
+| Runs on | Any computer with OpenSCAD |
 | On real hardware | None yet: nothing has been printed or measured; the three boxes are only checked by the asserts of their source |
+| License | GPL-3.0-or-later |
+
+**Jump to:** [Overview](#-overview) · [Architecture](#-architecture) · [Security](#-security--safety) · [Configuration](#-configuration) · [Quick start](#-quick-start) · [Testing](#-testing) · [Troubleshooting](#-troubleshooting) · [Structure](#-repository-structure) · [Related](#-related-projects)
 
 ## 🚦 Project status
 
@@ -48,7 +56,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Software | 🟡 | The radar enclosure and the parametric box of the solar, electrical and alarm nodes are OpenSCAD sources; the radar box is a printable starting point, not an IP, RF or thermal rating. |
-| Tests | 🟡 | The boxes are checked by the asserts of their source (the board fits, the cable holes fit, the lid clears the posts); none has been printed or measured. |
+| Tests | 🟡 | 22 tests pass (`python -m unittest discover -s tests`): the sources, the presets of the box, the model files and the numbers the documents quote. The boxes are also checked by the asserts of their source; none has been printed or measured. |
 | Hardware | 🔴 | Nothing has been printed or measured, the board sizes come from data sheets, and every row of the bench acceptance matrix is not tested. |
 | Documentation | 🟢 | Eight languages, the design inputs and the bench acceptance matrix are written and up to date. |
 
@@ -64,28 +72,118 @@ Each line is one part of this repository and the light says how far it is today.
 
 ARMOR-HARDWARE is what holds the nodes. It carries the enclosure of the radar node, the parametric box of the solar, electrical, alarm and touch-panel nodes, and the bench acceptance matrix that says how a prototype is to be judged before it goes on a wall. Its designs are the starting point for the boards that [ARMOR-NODE-RADAR](https://github.com/JuanenRac/ARMOR-NODE-RADAR), [ARMOR-NODE-SOLAR](https://github.com/JuanenRac/ARMOR-NODE-SOLAR), [ARMOR-NODE-ELECTRICAL](https://github.com/JuanenRac/ARMOR-NODE-ELECTRICAL), [ARMOR-NODE-ALARM](https://github.com/JuanenRac/ARMOR-NODE-ALARM) and [ARMOR-NODE-HMI](https://github.com/JuanenRac/ARMOR-NODE-HMI) run on.
 
-## 📂 Repository Structure
+## 🏛️ Architecture
 
-```text
-ARMOR-HARDWARE/
-├── scad/   node_enclosure_radar.scad (+ stl, amf, 3mf and two slicer projects: the base and the sliding cover), node_box.scad (the box of the solar, electrical and alarm nodes)
-├── docs/   DESIGN_INPUTS, VALIDATION, BENCH_ACCEPTANCE
-├── tests/  checks that need no OpenSCAD: the sources, the presets of the box, the model files and the numbers the documents quote
-├── tools/  the shared CI checks (armor_ci_validate.py, armor_project_tool.py, _armor_readme_parity.py)
-└── images/ brand assets
-```
+<p align="center">
+  <img src="images/architecture.svg" alt="ARMOR-HARDWARE architecture: who calls it, what it holds and what it depends on" width="100%">
+</p>
 
-## 🛠️ Development Environment
+## 🔒 Security & Safety
 
-**Requirements:** OpenSCAD 2021.01+ (to render the enclosures), a 3D printer (FDM) to try them
+| Threat | Defence |
+|---|---|
+| Mains wiring in a plastic box | `node_box.scad` is a low-voltage box, not an enclosure for mains wiring |
+| A blocked 24 GHz radar | No metallic, conductive or carbon-loaded material in front of a 24 GHz aperture without measuring it first; the 2 mm cover thickness is a row of the bench matrix |
+| A preset or a part that does not exist | `assert` stops the render: `preset must be solar, electrical or alarm`, `part must be box, lid or both` |
+| A print that does not fit | The asserts of the source catch it when the file is rendered: the board and its posts fit, the cable holes are not cut by a wall or a post nor taller than the inside, the lid lip is 1.2 to 3 mm |
+
+The radar enclosure is a printable mechanical starting point, **not an IP, RF or thermal rating**. Nothing has been printed or measured.
+
+## ⚙️ Configuration
+
+| Name | Value | What it sets |
+|---|---|---|
+| `wall`, `lid_t` | 3 mm, 3 mm | Wall and lid thickness of `node_box.scad` |
+| `post_d`, `post_h`, `post_cap` | 7, 6, 9 mm | The posts for the board and for the lid screws |
+| `screw_d` | 3.2 mm | M3 self-tapping screws into the posts |
+| `clear`, `lip_w` | 0.3 mm, 1.6 mm | Play between lid and box; width of the ring-shaped lip (1.2 to 3 mm) |
+| `preset`, `part` | `alarm` | `solar`, `electrical` or `alarm`; `box`, `lid` or `both` |
+| `vent` | `true` | A row of slots in the lid so the heat can leave |
+
+| Piece | Inside size (mm) | Board (mm) |
+|---|---|---|
+| `solar` | 110 × 80 × 45 | 66 × 53 |
+| `electrical` | 140 × 100 × 50 | 120 × 80 |
+| `alarm` | 150 × 110 × 60 | 120 × 80 |
+
+## 🚀 Quick start
+
+**Requirements:** OpenSCAD 2021.01+ (to render the enclosures), a 3D printer (FDM) to try them.
 
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
-python -m unittest discover -s tests   # the checks that need no OpenSCAD
 ```
 
 See the [validation boundary](docs/VALIDATION.md). The intended hardware licence is CERN-OHL-S-2.0; add its full text before releasing the designs.
+
+## 🧪 Testing
+
+```powershell
+python -m unittest discover -s tests   # 22 tests, no OpenSCAD needed
+python -I tools/armor_ci_validate.py
+```
+
+| Test file | Tests | What it covers |
+|---|---|---|
+| `test_enclosure_sources.py` | 22 | The sources, the presets of the box, the model files and the numbers the documents quote |
+
+OpenSCAD renders every piece on a machine that has it: the radar base and cover, and the box and lid of the three presets. The [bench acceptance matrix](docs/BENCH_ACCEPTANCE.md) is where a printed prototype is judged.
+
+## 🩺 Troubleshooting
+
+| You see | Because | Do |
+|---|---|---|
+| `preset must be solar, electrical or alarm` | The `preset` is something else | `-D 'preset="alarm"'` |
+| `the board and its posts do not fit inside the box` | A parameter made the posts too big for the inside | Restore `post_d` or choose a bigger preset |
+| The lid does not close | Your printer is tighter than the 0.3 mm of play | Raise `clear` and print again |
+
+## 📂 Repository Structure
+
+<p align="center">
+  <img src="images/repository-structure.svg" alt="Repository structure of ARMOR-HARDWARE" width="100%">
+</p>
+
+<details>
+<summary>Text version of the tree</summary>
+
+```text
+ARMOR-HARDWARE/
+├── scad/                                the enclosures and their model files
+├── docs/                                the guides of this repository
+├── tests/                               the tests
+├── tools/                               the shared CI checks and project tooling
+├── .github/                             CI workflow, issue and pull-request templates
+├── images/                              banner, icon and the two pictures of this README
+├── build.sh build.bat                   build through the shared project workflow
+├── test.sh test.bat                     run the tests through the shared workflow
+├── run.sh run.bat                       start through the shared project workflow
+├── armor.project.json                   manifest: version, role, maturity, build command
+├── CHANGELOG.md                         what changed in each version
+├── SECURITY.md SUPPORT.md LICENSE       security policy, support and license
+├── CONTRIBUTING.md CODE_OF_CONDUCT.md   how to contribute and the code of conduct
+├── build-test.sh build-test.bat         run the tests through the shared workflow
+└── .gitattributes .gitignore            Git settings
+```
+
+</details>
+
+## 🗺️ Roadmap & Known limits
+
+**Known limits today**
+
+* Nothing has been printed or measured; the board sizes come from data sheets and every row of the bench acceptance matrix is *not tested*.
+* There are no volumes yet for the ESP32-S3-ETH-PoE board, the PoE magnetics, the PTC heater or the light-sensor window; the touch panel has no printed box (it keeps its factory enclosure).
+* The hardware licence intended for the designs is CERN-OHL-S-2.0, and its full text is not in the repository yet.
+
+**Next**
+
+* Record the exact board outlines, connectors, screw positions, antenna keep-outs, the thermal path and the ingress target ([design inputs](docs/DESIGN_INPUTS.md)).
+* Print the prototypes and fill in the bench acceptance matrix with dated measurements.
+
+## 🌍 Languages
+
+README and texts exist in English, Spanish, French, Italian, German, Chinese, Japanese and European Portuguese.
 
 ## 🔗 Related Projects
 
@@ -111,15 +209,22 @@ See the [validation boundary](docs/VALIDATION.md). The intended hardware licence
 * **[ARMOR-UPDATER](https://github.com/JuanenRac/ARMOR-UPDATER)** - Detects, installs and updates the ecosystem's own repositories
 * **[ARMOR-DOCS](https://github.com/JuanenRac/ARMOR-DOCS)** - Architecture, security baseline and the capability matrix
 
-## 📚 Documentation & Community
+## 📚 Documentation
 
-Where to read more:
-
+* [Design inputs](docs/DESIGN_INPUTS.md): what to record before fabrication
+* [Validation boundary](docs/VALIDATION.md): what is and is not validated
+* [Bench acceptance matrix](docs/BENCH_ACCEPTANCE.md): the checks, their methods and proposed pass criteria
 * [Capability matrix: what is proven and what is not](https://github.com/JuanenRac/ARMOR-DOCS/blob/main/docs/CAPABILITY_MATRIX.md)
 * [Project catalogue: versions and how the repositories depend on each other](https://github.com/JuanenRac/ARMOR-DOCS/blob/main/docs/PROJECT_CATALOG.md)
 * [Changelog of this repository](CHANGELOG.md)
-* [License (GPL-3.0-or-later)](LICENSE)
-* Questions, ideas and reports: electrohobby3d@gmail.com
+
+## 🤝 Contributing & Community
+
+* Before a pull request run `python -m unittest discover -s tests` and `python -I tools/armor_ci_validate.py`: it must pass. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md).
+* The README exists in eight languages and is generated from the sources in ARMOR-DOCS: a change to the text is made there.
+* A change to a message between components starts in ARMOR-COMMON.
+* Do not describe as working on a board what has only been built.
+* Report a vulnerability privately: [SECURITY.md](SECURITY.md). Questions, ideas and reports: electrohobby3d@gmail.com ([SUPPORT.md](SUPPORT.md)).
 
 ## 👤 AUTHOR
 
