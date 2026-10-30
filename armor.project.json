@@ -12,6 +12,7 @@
   ],
   "deployment_target": "Outdoor field nodes",
   "maturity": "functional",
+  "evidence": "host-test",
   "family": "Hardware",
   "parent": "ARMOR-NODE-RADAR",
   "native_version": "0.2.6",
