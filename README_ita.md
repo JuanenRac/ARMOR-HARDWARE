@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 o successiva">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
   <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Test">
-  <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Versione">
+  <img src="https://img.shields.io/badge/Version-0.2.7-0f6cbd.svg" alt="Versione">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturità">
 </p>
 
@@ -35,7 +35,7 @@
 
 | | |
 |---|---|
-| Versione | `0.2.6` |
+| Versione | `0.2.7` |
 | Maturità | Funzionale |
 | Ruolo | Involucri, elettronica e la matrice di accettazione al banco (famiglia: Hardware, padre: ARMOR-NODE-RADAR) |
 | Tecnologia | OpenSCAD 2021.01+ (CAD), Python 3.11+ (verifiche) |

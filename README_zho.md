@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
   <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Tests">
-  <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.2.7-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -35,7 +35,7 @@
 
 | | |
 |---|---|
-| 版本 | `0.2.6` |
+| 版本 | `0.2.7` |
 | 成熟度 | 可用 |
 | 角色 | 外壳、电子元件和台架验收矩阵（家族：Hardware，上级：ARMOR-NODE-RADAR） |
 | 技术栈 | OpenSCAD 2021.01+（CAD）、Python 3.11+（检查） |

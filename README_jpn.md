@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
   <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Tests">
-  <img src="https://img.shields.io/badge/Version-0.2.6-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.2.7-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -35,7 +35,7 @@
 
 | | |
 |---|---|
-| バージョン | `0.2.6` |
+| バージョン | `0.2.7` |
 | 成熟度 | 機能する |
 | 役割 | 筐体、電子部品、ベンチ受け入れマトリクス（ファミリー：Hardware、親：ARMOR-NODE-RADAR） |
 | 技術 | OpenSCAD 2021.01+（CAD）、Python 3.11+（検査） |
