@@ -123,7 +123,7 @@ class PresetGeometryTests(unittest.TestCase):
     def test_the_cable_holes_do_not_overlap_each_other_and_fit_the_height(self):
         for preset in PRESETS:
             glands = sorted(self.glands[preset])
-            for (x1, d1), (x2, d2) in zip(glands, glands[1:]):
+            for (x1, d1), (x2, d2) in zip(glands, glands[1:], strict=False):
                 self.assertGreater(x2 - x1, (d1 + d2) / 2, f"{preset}: two cable holes touch")
             for _x, diameter in glands:
                 self.assertLessEqual(diameter, self.inside[preset][2] - 2, preset)
