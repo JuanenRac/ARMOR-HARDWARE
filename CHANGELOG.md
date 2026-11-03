@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The launchers find the shared repository through `ARMOR_COMMON_DIR`:** `build`, `build-test`, `test` and `run` (`.sh` and `.bat`) use the folder named by that variable when it is set and the sibling `ARMOR-COMMON` folder otherwise, so a checkout with another layout builds without changing a file.
 ## [0.2.8] - The bench acceptance matrix has two more rows, the gap from the antenna to the cover on the side radars and the measured mounting holes of the real board, both marked as not measured
 
 - **Two more rows in the bench acceptance matrix:** the gap from the antenna to the cover on the side radars and the measured mounting holes of the real board, both marked not tested.
