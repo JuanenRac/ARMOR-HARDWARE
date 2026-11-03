@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.2.8] - The bench acceptance matrix has two more rows, the gap from the antenna to the cover on the side radars and the measured mounting holes of the real board, both marked as not measured
+
 - **Two more rows in the bench acceptance matrix:** the gap from the antenna to the cover on the side radars and the measured mounting holes of the real board, both marked not tested.
 
 ## [0.2.7] - The lights of Project status follow the evidence of the manifest, the universal README and the pictures of the README from shared tools
