@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
@@ -39,7 +39,7 @@
 | Maturidade | Funcional |
 | Função | Caixas, eletrónica e a matriz de aceitação em bancada (família: Hardware, pai: ARMOR-NODE-RADAR) |
 | Tecnologia | OpenSCAD 2021.01+ (CAD), Python 3.11+ (verificações) |
-| Testes | 22 (`python -m unittest discover -s tests`) |
+| Testes | 34 (`python -m unittest discover -s tests`) |
 | Desenhos | A caixa do radar e a caixa de 3 presets de nó (solar, elétrico, alarme) |
 | Funciona em | Qualquer computador com OpenSCAD |
 | Em hardware real | Nenhum ainda: nada foi impresso nem medido; as três caixas só são verificadas pelos `assert` do seu código |
@@ -56,7 +56,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Software | 🟡 | A caixa do radar e a caixa paramétrica dos nós solar, elétrico e de alarme são fontes de OpenSCAD; a caixa do radar é um ponto de partida imprimível, não uma classificação IP, RF nem térmica. |
-| Testes | 🟡 | Passam 22 testes (`python -m unittest discover -s tests`): as fontes, os presets da caixa, os ficheiros de modelo e os números que os documentos citam. As caixas também são verificadas pelos `assert` da sua fonte; nenhuma foi impressa nem medida. |
+| Testes | 🟡 | Passam 34 testes (`python -m unittest discover -s tests`): as fontes, os presets da caixa, os ficheiros de modelo e os números que os documentos citam. As caixas também são verificadas pelos `assert` da sua fonte; nenhuma foi impressa nem medida. |
 | Hardware | 🔴 | Nada foi impresso nem medido, as medidas das placas vêm de folhas de dados, e cada linha da matriz de aceitação em bancada está por testar. |
 | Documentação | 🟢 | Oito idiomas, os dados de projeto e a matriz de aceitação em bancada estão escritos e atualizados. |
 
@@ -120,13 +120,14 @@ Veja o [limite de validação](docs/VALIDATION.md). A licença de hardware previ
 ## 🧪 Testes
 
 ```powershell
-python -m unittest discover -s tests   # 22 tests, no OpenSCAD needed
+python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
 | Ficheiro de testes | Testes | O que cobre |
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | As fontes, os presets da caixa, os ficheiros de modelo e os números que os documentos citam |
+| `test_parametric_render.py` | 12 | A caixa renderizada com o OpenSCAD: o tamanho de cada peça de cada preset, um parâmetro alterado e o que os asserts da fonte recusam (10 precisam do OpenSCAD) |
 
 O OpenSCAD renderiza cada peça numa máquina que o tenha: a base e a tampa do radar, e a caixa e a tampa dos três presets. A [matriz de aceitação em bancada](docs/BENCH_ACCEPTANCE.md) é onde se avalia um protótipo impresso.
 

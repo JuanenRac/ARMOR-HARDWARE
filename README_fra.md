@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 ou ultérieure">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturité">
 </p>
@@ -39,7 +39,7 @@
 | Maturité | Fonctionnel |
 | Rôle | Boîtiers, électronique et la matrice d'acceptation sur banc (famille : Hardware, parent : ARMOR-NODE-RADAR) |
 | Technologie | OpenSCAD 2021.01+ (CAO), Python 3.11+ (contrôles) |
-| Tests | 22 (`python -m unittest discover -s tests`) |
+| Tests | 34 (`python -m unittest discover -s tests`) |
 | Conceptions | Le boîtier du radar et la boîte de 3 préréglages de nœud (solaire, électrique, alarme) |
 | Fonctionne sur | N'importe quel ordinateur avec OpenSCAD |
 | Sur matériel réel | Aucun pour l'instant : rien n'a été imprimé ni mesuré ; les trois boîtes ne sont vérifiées que par les `assert` de leur source |
@@ -56,7 +56,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Logiciel | 🟡 | Le boîtier du radar et la boîte paramétrique des nœuds solaire, électrique et d'alarme sont des sources OpenSCAD ; la boîte du radar est un point de départ imprimable, pas une classe IP, RF ou thermique. |
-| Tests | 🟡 | 22 tests réussissent (`python -m unittest discover -s tests`) : les sources, les préréglages de la boîte, les fichiers de modèle et les chiffres cités par les documents. Les boîtes sont aussi vérifiées par les `assert` de leur source ; aucune n'a été imprimée ni mesurée. |
+| Tests | 🟡 | 34 tests réussissent (`python -m unittest discover -s tests`) : les sources, les préréglages de la boîte, les fichiers de modèle et les chiffres cités par les documents. Les boîtes sont aussi vérifiées par les `assert` de leur source ; aucune n'a été imprimée ni mesurée. |
 | Matériel | 🔴 | Rien n'a été imprimé ni mesuré, les dimensions des cartes viennent de fiches techniques, et chaque ligne de la matrice d'acceptation sur banc n'est pas testée. |
 | Documentation | 🟢 | Huit langues, les données de conception et la matrice d'acceptation sur banc sont écrites et à jour. |
 
@@ -120,13 +120,14 @@ Voir la [frontière de validation](docs/VALIDATION.md). La licence matérielle p
 ## 🧪 Tests
 
 ```powershell
-python -m unittest discover -s tests   # 22 tests, no OpenSCAD needed
+python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
 | Fichier de tests | Tests | Ce qu'il couvre |
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | Les sources, les préréglages de la boîte, les fichiers de modèle et les chiffres cités par les documents |
+| `test_parametric_render.py` | 12 | La boîte rendue par OpenSCAD : la taille de chaque pièce de chaque préréglage, un paramètre changé et ce que refusent les asserts de la source (10 demandent OpenSCAD) |
 
 OpenSCAD rend chaque pièce sur une machine qui l'a : la base et le couvercle du radar, la boîte et le couvercle des trois préréglages. La [matrice d'acceptation sur banc](docs/BENCH_ACCEPTANCE.md) sert à juger un prototype imprimé.
 

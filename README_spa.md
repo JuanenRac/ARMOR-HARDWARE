@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 o posterior">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Pruebas">
+  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Pruebas">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Versión">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Madurez">
 </p>
@@ -39,7 +39,7 @@
 | Madurez | Funcional |
 | Función | Cajas, electrónica y la matriz de aceptación en banco (familia: Hardware, padre: ARMOR-NODE-RADAR) |
 | Tecnología | OpenSCAD 2021.01+ (CAD), Python 3.11+ (comprobaciones) |
-| Pruebas | 22 (`python -m unittest discover -s tests`) |
+| Pruebas | 34 (`python -m unittest discover -s tests`) |
 | Diseños | La caja del radar y la caja de 3 presets de nodo (solar, eléctrico, alarma) |
 | Funciona en | Cualquier ordenador con OpenSCAD |
 | En hardware real | Ninguno todavía: nada se ha impreso ni medido; las tres cajas solo las comprueban los `assert` de su fuente |
@@ -56,7 +56,7 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 | Área | Estado | Qué significa aquí |
 |---|---|---|
 | Software | 🟡 | La carcasa del radar y la caja paramétrica de los nodos solar, eléctrico y de alarma son fuentes de OpenSCAD; la caja del radar es un punto de partida imprimible, no una clasificación IP, RF ni térmica. |
-| Pruebas | 🟡 | Pasan 22 pruebas (`python -m unittest discover -s tests`): las fuentes, los presets de la caja, los ficheros de modelo y las cifras que citan los documentos. Las cajas también las comprueban los `assert` de su fuente; ninguna se ha impreso ni medido. |
+| Pruebas | 🟡 | Pasan 34 pruebas (`python -m unittest discover -s tests`): las fuentes, los presets de la caja, los ficheros de modelo y las cifras que citan los documentos. Las cajas también las comprueban los `assert` de su fuente; ninguna se ha impreso ni medido. |
 | Hardware | 🔴 | Nada se ha impreso ni medido, las medidas de las placas salen de hojas de datos, y cada fila de la matriz de aceptación en banco está sin probar. |
 | Documentación | 🟢 | Ocho idiomas, los datos de diseño y la matriz de aceptación en banco están escritos y al día. |
 
@@ -120,13 +120,14 @@ Véase el [límite de validación](docs/VALIDATION.md). La licencia de hardware 
 ## 🧪 Pruebas
 
 ```powershell
-python -m unittest discover -s tests   # 22 tests, no OpenSCAD needed
+python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
 | Fichero de pruebas | Pruebas | Qué cubre |
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | Las fuentes, los presets de la caja, los ficheros de modelo y las cifras que citan los documentos |
+| `test_parametric_render.py` | 12 | La caja renderizada con OpenSCAD: el tamaño de cada pieza de cada preset, un parámetro cambiado y lo que rechazan los asserts de la fuente (10 necesitan OpenSCAD) |
 
 OpenSCAD renderiza cada pieza en una máquina que lo tenga: la base y la tapa del radar, y la caja y la tapa de los tres presets. La [matriz de aceptación en banco](docs/BENCH_ACCEPTANCE.md) es donde se juzga un prototipo impreso.
 

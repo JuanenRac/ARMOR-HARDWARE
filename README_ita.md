@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 o successiva">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Test">
+  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Test">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Versione">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturità">
 </p>
@@ -39,7 +39,7 @@
 | Maturità | Funzionale |
 | Ruolo | Involucri, elettronica e la matrice di accettazione al banco (famiglia: Hardware, padre: ARMOR-NODE-RADAR) |
 | Tecnologia | OpenSCAD 2021.01+ (CAD), Python 3.11+ (verifiche) |
-| Test | 22 (`python -m unittest discover -s tests`) |
+| Test | 34 (`python -m unittest discover -s tests`) |
 | Progetti | L'involucro del radar e la scatola di 3 preset di nodo (solare, elettrico, allarme) |
 | Gira su | Qualsiasi computer con OpenSCAD |
 | Su hardware reale | Ancora nessuno: nulla è stato stampato né misurato; le tre scatole sono verificate solo dagli `assert` del sorgente |
@@ -56,7 +56,7 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Software | 🟡 | L'involucro del radar e la scatola parametrica dei nodi solare, elettrico e d'allarme sono sorgenti OpenSCAD; la scatola del radar è un punto di partenza stampabile, non una classificazione IP, RF o termica. |
-| Test | 🟡 | 22 test passano (`python -m unittest discover -s tests`): i sorgenti, i preset della scatola, i file di modello e i numeri citati dai documenti. Le scatole sono verificate anche dagli `assert` del loro sorgente; nessuna è stata stampata né misurata. |
+| Test | 🟡 | 34 test passano (`python -m unittest discover -s tests`): i sorgenti, i preset della scatola, i file di modello e i numeri citati dai documenti. Le scatole sono verificate anche dagli `assert` del loro sorgente; nessuna è stata stampata né misurata. |
 | Hardware | 🔴 | Nulla è stato stampato né misurato, le dimensioni delle schede vengono dai datasheet e ogni riga della matrice di accettazione al banco non è testata. |
 | Documentazione | 🟢 | Otto lingue, i dati di progetto e la matrice di accettazione al banco sono scritti e aggiornati. |
 
@@ -120,13 +120,14 @@ Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware previs
 ## 🧪 Test
 
 ```powershell
-python -m unittest discover -s tests   # 22 tests, no OpenSCAD needed
+python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
 | File di test | Test | Cosa copre |
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | I sorgenti, i preset della scatola, i file di modello e i numeri citati dai documenti |
+| `test_parametric_render.py` | 12 | La scatola resa con OpenSCAD: la dimensione di ogni pezzo di ogni preset, un parametro cambiato e ciò che rifiutano gli assert del sorgente (10 richiedono OpenSCAD) |
 
 OpenSCAD è in grado di renderizzare ogni pezzo su una macchina che lo ha: base e coperchio del radar, scatola e coperchio dei tre preset. Nella [matrice di accettazione al banco](docs/BENCH_ACCEPTANCE.md) si giudica un prototipo stampato.
 

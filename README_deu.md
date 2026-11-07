@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 oder neuer">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-22%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Reifegrad">
 </p>
@@ -39,7 +39,7 @@
 | Reifegrad | Funktionsfähig |
 | Rolle | Gehäuse, Elektronik und die Prüfstand-Abnahmematrix (Familie: Hardware, übergeordnet: ARMOR-NODE-RADAR) |
 | Technik | OpenSCAD 2021.01+ (CAD), Python 3.11+ (Prüfungen) |
-| Tests | 22 (`python -m unittest discover -s tests`) |
+| Tests | 34 (`python -m unittest discover -s tests`) |
 | Entwürfe | Das Radargehäuse und die Box für 3 Knoten-Presets (Solar, Elektro, Alarm) |
 | Läuft auf | Jeder Computer mit OpenSCAD |
 | Auf echter Hardware | Noch keiner: nichts wurde gedruckt oder vermessen; die drei Boxen werden nur durch die `assert`-Prüfungen ihres Quelltexts geprüft |
@@ -56,7 +56,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Software | 🟡 | Das Radargehäuse und die parametrische Box der Solar-, Elektrik- und Alarmknoten sind OpenSCAD-Quellen; die Radarbox ist ein druckbarer Ausgangspunkt, keine IP-, HF- oder Temperatur-Einstufung. |
-| Tests | 🟡 | 22 Tests bestehen (`python -m unittest discover -s tests`): die Quellen, die Presets der Box, die Modelldateien und die Zahlen, die die Dokumente nennen. Die Boxen prüfen auch die Asserts ihrer Quelle; keine wurde gedruckt oder gemessen. |
+| Tests | 🟡 | 34 Tests bestehen (`python -m unittest discover -s tests`): die Quellen, die Presets der Box, die Modelldateien und die Zahlen, die die Dokumente nennen. Die Boxen prüfen auch die Asserts ihrer Quelle; keine wurde gedruckt oder gemessen. |
 | Hardware | 🔴 | Nichts wurde gedruckt oder vermessen, die Maße der Platinen stammen aus Datenblättern, und jede Zeile der Prüfstand-Abnahmematrix ist ungetestet. |
 | Dokumentation | 🟢 | Acht Sprachen, die Entwurfsvorgaben und die Prüfstand-Abnahmematrix sind geschrieben und aktuell. |
 
@@ -120,13 +120,14 @@ Siehe die [Validierungsgrenze](docs/VALIDATION.md). Die vorgesehene Hardware-Liz
 ## 🧪 Tests
 
 ```powershell
-python -m unittest discover -s tests   # 22 tests, no OpenSCAD needed
+python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
 | Testdatei | Tests | Was sie abdeckt |
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | Die Quellen, die Presets der Box, die Modelldateien und die Zahlen, die die Dokumente nennen |
+| `test_parametric_render.py` | 12 | Die mit OpenSCAD gerenderte Box: die Größe jedes Teils jedes Presets, ein geänderter Parameter und was die Asserts der Quelle ablehnen (10 brauchen OpenSCAD) |
 
 OpenSCAD rendert jedes Teil auf einem Rechner, der es hat: Radarbasis und -deckel sowie Box und Deckel der drei Presets. In der [Prüfstand-Abnahmematrix](docs/BENCH_ACCEPTANCE.md) wird ein gedruckter Prototyp beurteilt.
 
