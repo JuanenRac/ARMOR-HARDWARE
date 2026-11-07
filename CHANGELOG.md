@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Parametric checks of the box, rendered by OpenSCAD in the CI:** `tests/test_parametric_render.py` renders the box and the lid of the three presets and reads the size of each STL back (it must be the inside size plus the walls, the height of the lid plus its switch pocket, the lid set behind the box when both are asked for), changes the shared parameters (`wall`, `lid_t`, `vent`) and checks the piece follows, and checks that the asserts of the source refuse an unknown preset or part, a lip outside 1.2 to 3 mm and posts that do not fit the board, while the edges of what is allowed still render. The evidence is the render, not a print: nothing has been printed or measured. The tests are skipped where OpenSCAD is not installed.
 - **The launchers find the shared repository through `ARMOR_COMMON_DIR`:** `build`, `build-test`, `test` and `run` (`.sh` and `.bat`) use the folder named by that variable when it is set and the sibling `ARMOR-COMMON` folder otherwise, so a checkout with another layout builds without changing a file.
 ## [0.2.8] - The bench acceptance matrix has two more rows, the gap from the antenna to the cover on the side radars and the measured mounting holes of the real board, both marked as not measured
 
