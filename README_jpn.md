@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-63%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-76%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.9-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
@@ -39,7 +39,7 @@
 | 成熟度 | 機能する |
 | 役割 | 筐体、電子部品、ベンチ受け入れマトリクス（ファミリー：Hardware、親：ARMOR-NODE-RADAR） |
 | 技術 | OpenSCAD 2021.01+（CAD）、Python 3.11+（検査） |
-| テスト | 63 (`python -m unittest discover -s tests`) |
+| テスト | 76 (`python -m unittest discover -s tests`) |
 | 設計 | レーダー筐体と 3 つのノードプリセット（ソーラー、電気、アラーム）の箱 |
 | 動作環境 | OpenSCAD のある任意のコンピューター |
 | 実機での確認 | まだありません：何も印刷も計測もされていません。3 つのボックスはソースの `assert` で検査されているだけです |
@@ -56,7 +56,7 @@
 | 領域 | 状態 | ここでの意味 |
 |---|---|---|
 | ソフトウェア | 🟡 | レーダーの筐体と、太陽光・電気・警報ノード用のパラメトリックなボックスは OpenSCAD のソースです。レーダーのボックスは印刷できる出発点で、IP・RF・熱の等級ではありません。 |
-| テスト | 🟡 | 63 件のテストが通ります（`python -m unittest discover -s tests`）：ソース、箱のプリセット、モデルファイル、文書が引用する数値。箱はソースの `assert` でも検証されますが、印刷も測定もしていません。 |
+| テスト | 🟡 | 76 件のテストが通ります（`python -m unittest discover -s tests`）：ソース、箱のプリセット、モデルファイル、文書が引用する数値。箱はソースの `assert` でも検証されますが、印刷も測定もしていません。 |
 | ハードウェア | 🔴 | 何も印刷も実測もしておらず、基板の寸法はデータシートに基づいています。ベンチ受け入れマトリクスの全行が未テストです。 |
 | ドキュメント | 🟢 | 8 言語、設計の入力条件、ベンチ受け入れマトリクスが書かれていて最新です。 |
 
@@ -123,7 +123,7 @@ python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ## 🧪 テスト
 
 ```powershell
-python -m unittest discover -s tests   # 63 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 76 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
