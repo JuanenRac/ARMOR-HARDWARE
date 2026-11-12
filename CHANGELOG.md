@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The command of the pin table is tried:** its wrong arguments, the message when the firmware tables are not next to the repository, the write of the document and its check (a change by hand, a missing document and the line endings of Windows), with a stand-in for the tables so that no other repository is needed.
 - **A model of the distance between each radar holder and the front cover, and a file for the real measurements:** `tests/test_antenna_cover_model.py` works out from the numbers of the radar enclosure how far the front face of each holder is from the inner face of the cover (square to the cover and along the beam) and how far from parallel it is, against the wavelengths of the manual (12.4 and 18.6 mm, plus or minus 1.2 mm); `tests/data/measurements.json` is where the calliper measurements of the real board, its mounting holes, the stack with the PoE module and the printed piece go (null until measured), and `tests/test_measurements_fit.py` checks every filled value against the posts and the height of the box. Nothing has been printed or measured.
 ## [0.2.9] - A floor for the test coverage: the workflow `coverage-floor.yml` runs the Python tests under coverage and fails when the lines or the branches of `tools/pinout.py` and `tools/export_models.py` fall below `docs/coverage_threshold.json` (floo
 
