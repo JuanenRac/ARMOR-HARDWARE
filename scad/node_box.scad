@@ -11,22 +11,24 @@
 // is mounted in it. It is not IP rated, and it is not a mains enclosure: the electrical node must not be put in it with mains voltage inputs wired (see docs/DESIGN_INPUTS.md).
 // Use:  openscad -D 'part="box"' -D 'preset="alarm"' -o node_box_alarm.stl node_box.scad      (part: "box", "lid" or "both"; preset: "solar", "electrical", "alarm")
 // ==========================================================
+include <node_common.scad>   // wall, lid_t, clear and the cable glands: shared with the radar enclosure
+
 $fn = 48;
 part   = "both";
 preset = "solar";
 
 // ---- what each preset is: the inside size, the board size and the cable glands
-// The board sizes: Waveshare ESP32-S3-ETH about 66 x 53 mm; the base board of the electrical and alarm nodes is larger (to be measured). Glands are listed as [x from the left wall, diameter].
+// The board sizes: Waveshare ESP32-S3-ETH about 66 x 53 mm; the base board of the electrical and alarm nodes is larger (to be measured). The glands are four of one size, the thread of
+// gland_thread(p) (node_common.scad has the sizes of the shop), at the distances gland_x(p) from the left wall; glands(p) lists them as [x from the left wall, hole diameter].
 function inside(p)      = p == "solar" ? [110, 80, 45] : p == "electrical" ? [140, 100, 50] : [150, 110, 60];
 function board(p)       = p == "solar" ? [66, 53] : [120, 80];
-function glands(p)      = p == "solar" ? [[20, 12], [45, 12], [70, 12], [95, 12]] : p == "electrical" ? [[20, 14], [50, 14], [80, 14], [110, 14]] : [[25, 14], [60, 14], [95, 14], [130, 14]];
+function gland_thread(p) = p == "solar" ? gland_pg7 : gland_m16;
+function gland_x(p)     = p == "solar" ? [18, 42, 66, 90] : p == "electrical" ? [20, 50, 80, 110] : [25, 60, 95, 130];
+function glands(p)      = [for (x = gland_x(p)) [x, gland_hole(gland_thread(p))]];
 
-wall    = 3;        // wall thickness (mm)
-lid_t   = 3;        // lid thickness (mm)
 post_d  = 7;        // the posts for the board: diameter and height
 post_h  = 6;
 screw_d = 3.2;      // the screws of the lid and of the board (M3 self-tapping into the posts)
-clear   = 0.3;      // play between the lid and the box
 lip_w   = 1.6;      // the width of the ring-shaped lip of the lid
 post_cap = 9;       // the diameter of the posts of the lid screws
 vent    = true;     // a row of slots in the lid so the heat can leave (the ESP32 and the relays warm the inside)

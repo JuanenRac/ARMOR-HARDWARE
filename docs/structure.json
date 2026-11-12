@@ -32,20 +32,6 @@
           }
         },
         {
-          "name": "node_enclosure_radar.stl .amf .3mf",
-          "desc": {
-            "en": "the exports of the radar enclosure",
-            "es": "las exportaciones de la caja del radar",
-            "de": "die Exporte des Radargehäuses",
-            "fr": "les exports du boîtier du radar",
-            "it": "le esportazioni dell'involucro del radar",
-            "ja": "レーダー筐体のエクスポート",
-            "zh": "雷达外壳的导出文件",
-            "pt": "as exportações da caixa do radar"
-          },
-          "tree_name": "node_enclosure_radar.stl .amf .3mf"
-        },
-        {
           "name": "node_enclosure_radar_1.3mf  _2.3mf",
           "desc": {
             "en": "two slicer projects: the base and the sliding cover",
@@ -70,6 +56,19 @@
             "ja": "ソーラー・電気・アラームノード用のパラメトリックな箱",
             "zh": "太阳能、电气和报警节点的参数化盒子",
             "pt": "a caixa paramétrica dos nós solar, elétrico e de alarme"
+          }
+        },
+        {
+          "name": "node_common.scad",
+          "desc": {
+            "en": "wall, lid, play, cable glands",
+            "es": "pared, tapa, holgura, prensaestopas",
+            "de": "Wand, Deckel, Spiel, Verschraubungen",
+            "fr": "paroi, couvercle, jeu, presse-étoupes",
+            "it": "parete, coperchio, gioco, pressacavi",
+            "ja": "壁・蓋・遊び・グランド",
+            "zh": "壁厚、盖厚、间隙、格兰头",
+            "pt": "parede, tampa, folga, bucins"
           }
         }
       ]
@@ -126,6 +125,19 @@
             "zh": "台架验收矩阵",
             "pt": "a matriz de aceitação em bancada"
           }
+        },
+        {
+          "name": "PINOUT.md",
+          "desc": {
+            "en": "the pins of the nodes",
+            "es": "los pines de los nodos",
+            "de": "die Pins der Knoten",
+            "fr": "les broches des nœuds",
+            "it": "i pin dei nodi",
+            "ja": "ノードのピン表",
+            "zh": "节点引脚表",
+            "pt": "os pinos dos nós"
+          }
         }
       ]
     },
@@ -155,6 +167,32 @@
             "zh": "22 项无需 OpenSCAD 的检查",
             "pt": "22 verificações sem OpenSCAD"
           }
+        },
+        {
+          "name": "test_pinout.py",
+          "desc": {
+            "en": "pin table vs firmware",
+            "es": "tabla de pines vs firmware",
+            "de": "Pin-Tabelle gegen Firmware",
+            "fr": "broches vs firmware",
+            "it": "tabella pin vs firmware",
+            "ja": "ピン表の照合",
+            "zh": "引脚表比对",
+            "pt": "pinos vs firmware"
+          }
+        },
+        {
+          "name": "test_export_models.py",
+          "desc": {
+            "en": "piece export, no OpenSCAD",
+            "es": "exportación sin OpenSCAD",
+            "de": "Export ohne OpenSCAD",
+            "fr": "export sans OpenSCAD",
+            "it": "esportazione senza OpenSCAD",
+            "ja": "OpenSCAD なしの出力",
+            "zh": "无需 OpenSCAD 的导出",
+            "pt": "exportação sem OpenSCAD"
+          }
         }
       ]
     },
@@ -183,6 +221,32 @@
             "ja": "CI 検証",
             "zh": "CI 验证",
             "pt": "a validação de CI"
+          }
+        },
+        {
+          "name": "export_models.py",
+          "desc": {
+            "en": "every piece as its own STL and 3MF",
+            "es": "cada pieza como su propio STL y 3MF",
+            "de": "jedes Teil als eigenes STL und 3MF",
+            "fr": "chaque pièce en STL et 3MF séparés",
+            "it": "ogni pezzo come STL e 3MF a parte",
+            "ja": "各パーツを個別の STL と 3MF に出力",
+            "zh": "把每个零件导出为独立的 STL 和 3MF",
+            "pt": "cada peça como STL e 3MF próprios"
+          }
+        },
+        {
+          "name": "pinout.py",
+          "desc": {
+            "en": "writes and checks docs/PINOUT.md",
+            "es": "escribe y comprueba docs/PINOUT.md",
+            "de": "schreibt und prüft docs/PINOUT.md",
+            "fr": "écrit et vérifie docs/PINOUT.md",
+            "it": "scrive e controlla docs/PINOUT.md",
+            "ja": "docs/PINOUT.md を生成して検証",
+            "zh": "生成并检查 docs/PINOUT.md",
+            "pt": "escreve e verifica docs/PINOUT.md"
           }
         }
       ]

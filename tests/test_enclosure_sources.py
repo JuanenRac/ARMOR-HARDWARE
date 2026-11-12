@@ -5,7 +5,10 @@ from __future__ import annotations
 
 import math
 import re
+import shutil
 import struct
+import subprocess
+import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 import zipfile
@@ -15,6 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SCAD = ROOT / "scad"
 RADAR = (SCAD / "node_enclosure_radar.scad").read_text(encoding="utf-8")
 BOX = (SCAD / "node_box.scad").read_text(encoding="utf-8")
+COMMON = (SCAD / "node_common.scad").read_text(encoding="utf-8")
+OPENSCAD = shutil.which("openscad")
 PRESETS = ("solar", "electrical", "alarm")
 
 
@@ -96,10 +101,15 @@ class PresetGeometryTests(unittest.TestCase):
         text = strip_comments(BOX)
         cls.inside = {name: vector_list(value)[0] if name else None for name, value in preset_values("inside").items()}
         cls.board = {name: vector_list(value)[0] for name, value in preset_values("board").items()}
-        cls.glands = {name: vector_list(value) for name, value in preset_values("glands").items()}
+        common = strip_comments(COMMON)
+        catalogue = {name: number(common, name) for name in ("gland_pg7", "gland_m12", "gland_pg9", "gland_m16")}
+        play = number(common, "gland_play")
+        positions = {name: vector_list(value)[0] for name, value in preset_values("gland_x").items()}
+        threads = {name: catalogue[value] for name, value in preset_values("gland_thread").items()}
+        cls.glands = {name: [[x, threads[name] + play] for x in positions[name]] for name in PRESETS}
         cls.post_d = number(text, "post_d")
         cls.lip_w = number(text, "lip_w")
-        cls.wall = number(text, "wall")
+        cls.wall = number(common, "wall")
 
     def test_the_numbers_are_read(self):
         for preset in PRESETS:
@@ -144,14 +154,45 @@ def read_binary_stl(path: Path):
     return count, data, len(data) == 84 + 50 * count
 
 
+def read_stl(path: Path):
+    """The triangles of an STL as the tests read them: a binary file as it is, an ASCII one (what OpenSCAD writes) turned into the same binary layout first."""
+    data = path.read_bytes()
+    if not data.startswith(b"solid") or b"facet" not in data[:400]:
+        return read_binary_stl(path)
+    facets = []
+    vertices: list[tuple[float, float, float]] = []
+    for line in data.decode("ascii", errors="replace").splitlines():
+        line = line.strip()
+        if line.startswith("vertex"):
+            vertices.append(tuple(float(item) for item in line.split()[1:4]))
+        elif line.startswith("endfacet"):
+            facets.append(vertices[-3:])
+    blob = bytearray(80) + struct.pack("<I", len(facets))
+    for a, b, c in facets:
+        blob += struct.pack("<12fH", 0, 0, 0, *a, *b, *c, 0)
+    converted = Path(tempfile.mkdtemp(prefix="armor-stl-")) / "binary.stl"
+    converted.write_bytes(bytes(blob))
+    return read_binary_stl(converted)
+
+
+@unittest.skipUnless(OPENSCAD, "OpenSCAD is not installed here (the CI installs it)")
 class ModelFileTests(unittest.TestCase):
+    """The model files are made from the source and not kept in the repository: the default render of the radar enclosure is made here in the three formats and read back."""
+
     @classmethod
     def setUpClass(cls):
         cls.floor = number(RADAR, "floor_z_offset")
         cls.top = number(RADAR, "ceiling_z_offset") + number(RADAR, "ceiling_thickness_z")
+        cls.folder = Path(tempfile.mkdtemp(prefix="armor-models-"))
+        cls.files = {}
+        for extension in ("stl", "3mf", "amf"):
+            target = cls.folder / f"node_enclosure_radar.{extension}"
+            done = subprocess.run([str(OPENSCAD), "-o", str(target), str(SCAD / "node_enclosure_radar.scad")], capture_output=True, text=True, check=False, timeout=600)
+            assert done.returncode == 0 and target.is_file(), f"{extension}: {done.stderr[-300:]}"
+            cls.files[extension] = target
 
     def test_the_stl_is_a_complete_binary_mesh_inside_the_envelope_of_the_source(self):
-        count, data, sized = read_binary_stl(SCAD / "node_enclosure_radar.stl")
+        count, data, sized = read_stl(self.files["stl"])
         self.assertTrue(sized, "the size of the file does not match its triangle count")
         self.assertGreater(count, 100)
         zs = []
@@ -163,7 +204,7 @@ class ModelFileTests(unittest.TestCase):
         self.assertAlmostEqual(max(zs), self.top, places=3)
 
     def test_the_stl_has_no_degenerate_triangles(self):
-        count, data, _ = read_binary_stl(SCAD / "node_enclosure_radar.stl")
+        count, data, _ = read_stl(self.files["stl"])
         for index in range(count):
             v = struct.unpack("<12fH", data[84 + 50 * index:134 + 50 * index])
             a, b, c = (v[3:6]), (v[6:9]), (v[9:12])
@@ -173,8 +214,8 @@ class ModelFileTests(unittest.TestCase):
             self.assertGreater(math.sqrt(sum(item * item for item in cross)), 0, f"triangle {index} has no area")
 
     def test_the_3mf_of_the_enclosure_is_valid_and_has_the_triangles_of_the_stl(self):
-        count, _data, _ = read_binary_stl(SCAD / "node_enclosure_radar.stl")
-        with zipfile.ZipFile(SCAD / "node_enclosure_radar.3mf") as archive:
+        count, _data, _ = read_stl(self.files["stl"])
+        with zipfile.ZipFile(self.files["3mf"]) as archive:
             self.assertIsNone(archive.testzip())
             self.assertIn("[Content_Types].xml", archive.namelist())
             root = ET.fromstring(archive.read("3D/3dmodel.model"))
@@ -190,12 +231,12 @@ class ModelFileTests(unittest.TestCase):
         self.assertAlmostEqual(max(zs), self.top, places=3)
 
     def test_the_amf_is_valid_and_agrees_with_the_3mf(self):
-        root = ET.parse(SCAD / "node_enclosure_radar.amf").getroot()
+        root = ET.parse(self.files["amf"]).getroot()
         self.assertEqual(root.tag, "amf")
         self.assertEqual(root.get("unit"), "millimeter")
         vertices = root.findall(".//vertex")
         triangles = root.findall(".//triangle")
-        count, _data, _ = read_binary_stl(SCAD / "node_enclosure_radar.stl")
+        count, _data, _ = read_stl(self.files["stl"])
         self.assertEqual(len(triangles), count)
         indices = [int(item.text) for t in triangles for item in t if item.tag in ("v1", "v2", "v3")]
         self.assertEqual(len(indices), 3 * count)
@@ -225,10 +266,50 @@ class ModelFileTests(unittest.TestCase):
                         self.assertLess(max(int(t.get(k)) for t in triangles for k in ("v1", "v2", "v3")), len(vertices), f"{name}:{part}")
                 self.assertGreater(triangles_found, 0, name)
 
-    def test_no_model_file_is_empty_or_a_leftover(self):
+
+
+class FolderTests(unittest.TestCase):
+    def test_the_folder_holds_the_sources_and_the_slicer_projects_and_no_export(self):
         for path in SCAD.iterdir():
-            self.assertGreater(path.stat().st_size, 1000, path.name)
-            self.assertIn(path.suffix, {".scad", ".stl", ".amf", ".3mf"}, path.name)
+            self.assertGreater(path.stat().st_size, 500, path.name)
+            self.assertIn(path.suffix, {".scad", ".3mf"}, f"{path.name}: the exports are made by tools/export_models.py and not kept here")
+        self.assertEqual({path.name for path in SCAD.glob("*.3mf")}, {"node_enclosure_radar_1.3mf", "node_enclosure_radar_2.3mf"})
+
+
+class SharedParametersTests(unittest.TestCase):
+    """AHW-MEJ-005: what two enclosures must agree on is written once in node_common.scad, and the cable glands are the sizes a shop sells."""
+
+    CLEAN = strip_comments(COMMON)
+
+    def test_both_enclosures_include_the_shared_file_and_do_not_repeat_it(self):
+        for name, text in (("node_box.scad", BOX), ("node_enclosure_radar.scad", RADAR)):
+            self.assertRegex(text, r"(?m)^include <node_common\.scad>", name)
+        box = strip_comments(BOX)
+        for name in ("wall", "lid_t", "clear"):
+            self.assertRegex(self.CLEAN, rf"(?m)^{name}\s*=\s*[0-9.]+;", f"node_common.scad lacks {name}")
+            self.assertNotRegex(box, rf"(?m)^{name}\s*=", f"node_box.scad defines {name} again")
+
+    def test_the_catalogue_of_glands_is_the_one_of_the_shop(self):
+        shop = {"gland_pg7": 12.5, "gland_m12": 12.0, "gland_pg9": 15.2, "gland_m16": 16.0}
+        for name, thread in shop.items():
+            self.assertEqual(number(self.CLEAN, name), thread, name)
+        self.assertTrue(0.2 <= number(self.CLEAN, "gland_play") <= 0.8, "the hole is a little wider than the thread, not much")
+        self.assertIn("function gland_hole(thread)", COMMON)
+
+    def test_every_cable_hole_is_a_catalogue_thread_plus_the_play(self):
+        shop = [number(self.CLEAN, name) for name in ("gland_pg7", "gland_m12", "gland_pg9", "gland_m16")]
+        play = number(self.CLEAN, "gland_play")
+        for preset, thread in preset_values("gland_thread").items():
+            self.assertIn(thread, {"gland_pg7", "gland_m12", "gland_pg9", "gland_m16"}, preset)
+            self.assertIn(number(self.CLEAN, thread), shop)
+        self.assertIn("gland_hole(gland_pg9)", strip_comments(RADAR))
+        self.assertGreater(play, 0)
+        self.assertNotRegex(strip_comments(BOX), r"\[\s*[0-9]+\s*,\s*1[0-9]\s*\]", "a cable hole with a round diameter written by hand")
+
+    def test_the_radar_does_not_take_a_name_of_the_shared_file_for_its_own(self):
+        defined = set(re.findall(r"(?m)^([a-z_0-9]+)\s*=", strip_comments(RADAR)))
+        shared = set(re.findall(r"(?m)^([a-z_0-9]+)\s*=", self.CLEAN))
+        self.assertEqual(defined & shared, set(), "a variable of the radar enclosure would be overwritten by the shared file or the other way round")
 
 
 class DocumentedNumbersTests(unittest.TestCase):

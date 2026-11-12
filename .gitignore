@@ -7,3 +7,6 @@ build/
 __pycache__/
 
 *.pyc
+scad/node_enclosure_radar.stl
+scad/node_enclosure_radar.amf
+scad/node_enclosure_radar.3mf

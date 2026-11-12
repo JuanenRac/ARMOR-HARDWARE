@@ -13,14 +13,14 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from test_enclosure_sources import BOX, PRESETS, number, preset_values, strip_comments, vector_list  # noqa: E402
+from test_enclosure_sources import BOX, COMMON, PRESETS, number, preset_values, strip_comments, vector_list  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 OPENSCAD = shutil.which("openscad")
 CLEAN = strip_comments(BOX)
 INSIDE = {name: vector_list(value)[0] for name, value in preset_values("inside").items()}
-WALL = number(CLEAN, "wall")
-LID_T = number(CLEAN, "lid_t")
+WALL = number(strip_comments(COMMON), "wall")
+LID_T = number(strip_comments(COMMON), "lid_t")
 GAP_Y = 15.0           # the lid of "both" is set this far behind the box (translate in the source)
 TOLERANCE = 0.05
 

@@ -1,6 +1,8 @@
 // ==========================================================
 // A.R.M.O.R - CORNER BASE WITH DYNAMICALLY LINKED SLOTS
 // ==========================================================
+include <node_common.scad>   // the cable glands, shared with the box of the other nodes
+
 $fn = 50;
 
 // ==========================================================
@@ -69,7 +71,7 @@ wallY_hole_1 = [-20, 75, 15];
 wallY_hole_2 = [-20, 75, 80];
 
 // --- 3.2. LATERAL CABLE GLAND / PASSTHROUGH ---
-cable_gland_d = 15;
+cable_gland_d = gland_hole(gland_pg9);   // a PG9 gland (15.2 mm thread) and its play, not a round number
 cable_gland_pos = [-17.5, 88, 88];
 cable_gland_rot = [90, 0, 0];
 
