@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.2.9] - A floor for the test coverage: the workflow `coverage-floor.yml` runs the Python tests under coverage and fails when the lines or the branches of `tools/pinout.py` and `tools/export_models.py` fall below `docs/coverage_threshold.json` (floo
+
 - **A floor for the test coverage:** the workflow `coverage-floor.yml` runs the Python tests under coverage and fails when the lines or the branches of `tools/pinout.py` and `tools/export_models.py` fall below `docs/coverage_threshold.json` (floor: lines 90.5, branches 85.0; measured 91.26 and 85.90). The shared tools that this repository only carries a copy of are not counted. Raising the floor is a change of that file, made with a figure measured by the workflow.
 
 - **One table of the pins of the nodes:** `docs/PINOUT.md` lists, for the Waveshare ESP32-S3-ETH and the ESP32-S3-WROOM-1 board, what each GPIO is (free, to use with care, never offered and why), the default pins of the ten serial ports, and the Zigbee radio, the eight relays and the eight analog inputs of the base board. It is made by `tools/pinout.py` from the two shared headers of ARMOR-COMMON the firmware is built with, and `tests/test_pinout.py` fails when it differs, when a port defaults to a reserved pin or to a pin another port uses, or when a relay pin repeats.
