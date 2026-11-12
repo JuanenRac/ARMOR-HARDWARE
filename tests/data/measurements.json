@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "note": "Real calliper measurements of the parts. A value of null means not measured yet; the tests in test_measurements_fit.py check every filled value against the source of the enclosures and pass on null.",
+  "esp32_s3_eth_board": {
+    "size_mm": [null, null],
+    "mounting_holes_pitch_mm": [null, null],
+    "mounting_hole_diameter_mm": null,
+    "stacked_height_with_poe_module_mm": null
+  },
+  "ld2450_module": {
+    "antenna_plane_behind_front_edge_mm": null
+  },
+  "printed_radar_piece": {
+    "inner_face_to_holder_front_mm": {"s1": null, "s2": null, "s3": null}
+  }
+}
