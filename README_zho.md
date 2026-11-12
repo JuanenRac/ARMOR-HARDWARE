@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
@@ -39,7 +39,7 @@
 | 成熟度 | 可用 |
 | 角色 | 外壳、电子元件和台架验收矩阵（家族：Hardware，上级：ARMOR-NODE-RADAR） |
 | 技术栈 | OpenSCAD 2021.01+（CAD）、Python 3.11+（检查） |
-| 测试 | 34 (`python -m unittest discover -s tests`) |
+| 测试 | 63 (`python -m unittest discover -s tests`) |
 | 设计 | 雷达外壳和 3 种节点预设（太阳能、电气、报警）的盒子 |
 | 运行位置 | 任何装有 OpenSCAD 的计算机 |
 | 真实硬件 | 暂无：没有任何东西被打印或测量过；三个盒子只由源文件中的 `assert` 检查 |
@@ -56,13 +56,14 @@
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
 | 软件 | 🟡 | 雷达外壳以及光伏、电气和报警节点的参数化盒子都是 OpenSCAD 源文件；雷达盒子是可打印的起点，并非 IP、射频或温度等级。 |
-| 测试 | 🟡 | 34 个测试通过（`python -m unittest discover -s tests`）：源文件、盒子预设、模型文件以及文档中引用的数字。盒子也由其源码中的 `assert` 检查；都没有打印或测量过。 |
+| 测试 | 🟡 | 63 个测试通过（`python -m unittest discover -s tests`）：源文件、盒子预设、模型文件以及文档中引用的数字。盒子也由其源码中的 `assert` 检查；都没有打印或测量过。 |
 | 硬件 | 🔴 | 没有任何东西被打印或测量过，板子的尺寸来自数据手册，测试台验收矩阵的每一行都未测试。 |
 | 文档 | 🟢 | 八种语言、设计输入和测试台验收矩阵均已编写并保持最新。 |
 
 ## 🎯 概述
 
-* **雷达外壳是 `scad/node_enclosure_radar.scad`**（带 STL、3MF 和 AMF 导出以及两个切片项目：底座和滑动盖）：带遮阳罩、顶和底的 90 度转角底座、固定台阶、2 毫米的滑动前盖和侧翼，全部由命名参数驱动。
+* **雷达外壳是 `scad/node_enclosure_radar.scad`**（带两个切片项目：底座和滑动盖；每个零件的 STL 和 3MF 由 `tools/export_models.py` 从源文件生成，作为 CI 的构件保存，而不放在仓库里）：带遮阳罩、顶和底的 90 度转角底座、固定台阶、2 毫米的滑动前盖和侧翼，全部由命名参数驱动。
+* **一张引脚表和一个共享文件。** `docs/PINOUT.md` 由 `tools/pinout.py` 根据固件编译所用的表生成（模块引脚、十个串口、Zigbee 无线电、底板的继电器和模拟输入，两块板各一份），不一致时测试失败；`scad/node_common.scad` 保存两种外壳共用的值：壁厚、盖厚、间隙和市售线缆格兰头的尺寸（PG7 12.5 毫米、M12 12 毫米、PG9 15.2 毫米、M16 16 毫米），因此孔径是螺纹加间隙，而不是随手取的整数。
 * **用于太阳能、电气和报警节点的参数化盒子**（`scad/node_box.scad`，预设 `solar`、`electrical` 和 `alarm`）：墙壁、板子立柱、电缆格兰头孔、通风孔、盖下的防拆微动开关槽，以及带环形唇边的盖子。这是低压盒子，不是市电布线的外壳。
 * **支架**用于三个雷达模块、一个电缆格兰头和排水孔。台架矩阵要测试的 ESP32-S3-ETH-PoE 板、PoE 磁件、PTC 加热器和光传感器窗口还没有预留空间。未经测量，24 GHz 孔径前不要放置金属、导电或含碳的材料。
 * **台架验收矩阵：**射频、环境、电源、网络和摄像头检查，每项都有方法和建议的通过标准，另有待填写的摄像头兼容性表。
@@ -93,7 +94,7 @@ ARMOR-HARDWARE 是容纳各节点的部分。它包含雷达节点的外壳、�
 
 | 名称 | 值 | 作用 |
 |---|---|---|
-| `wall`, `lid_t` | 3 mm, 3 mm | `node_box.scad` 的壁厚与盖厚 |
+| `wall`, `lid_t` | 3 mm, 3 mm | `node_box.scad` 的壁厚与盖厚（定义在 `node_common.scad` 中） |
 | `post_d`, `post_h`, `post_cap` | 7, 6, 9 mm | 电路板与盖板螺钉的立柱 |
 | `screw_d` | 3.2 mm | 拧入立柱的 M3 自攻螺钉 |
 | `clear`, `lip_w` | 0.3 mm, 1.6 mm | 盖与盒之间的间隙；环形唇的宽度（1.2 到 3 mm） |
@@ -113,6 +114,8 @@ ARMOR-HARDWARE 是容纳各节点的部分。它包含雷达节点的外壳、�
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python tools/export_models.py --out build/models   # every piece as STL and 3MF
+python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ```
 
 参见[验证边界](docs/VALIDATION.md)。预期的硬件许可证是 CERN-OHL-S-2.0；发布设计前请加入其完整文本。
@@ -120,7 +123,7 @@ openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/n
 ## 🧪 测试
 
 ```powershell
-python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 63 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 

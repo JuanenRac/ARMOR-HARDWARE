@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 oder neuer">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Reifegrad">
 </p>
@@ -39,7 +39,7 @@
 | Reifegrad | Funktionsfähig |
 | Rolle | Gehäuse, Elektronik und die Prüfstand-Abnahmematrix (Familie: Hardware, übergeordnet: ARMOR-NODE-RADAR) |
 | Technik | OpenSCAD 2021.01+ (CAD), Python 3.11+ (Prüfungen) |
-| Tests | 34 (`python -m unittest discover -s tests`) |
+| Tests | 63 (`python -m unittest discover -s tests`) |
 | Entwürfe | Das Radargehäuse und die Box für 3 Knoten-Presets (Solar, Elektro, Alarm) |
 | Läuft auf | Jeder Computer mit OpenSCAD |
 | Auf echter Hardware | Noch keiner: nichts wurde gedruckt oder vermessen; die drei Boxen werden nur durch die `assert`-Prüfungen ihres Quelltexts geprüft |
@@ -56,13 +56,14 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Software | 🟡 | Das Radargehäuse und die parametrische Box der Solar-, Elektrik- und Alarmknoten sind OpenSCAD-Quellen; die Radarbox ist ein druckbarer Ausgangspunkt, keine IP-, HF- oder Temperatur-Einstufung. |
-| Tests | 🟡 | 34 Tests bestehen (`python -m unittest discover -s tests`): die Quellen, die Presets der Box, die Modelldateien und die Zahlen, die die Dokumente nennen. Die Boxen prüfen auch die Asserts ihrer Quelle; keine wurde gedruckt oder gemessen. |
+| Tests | 🟡 | 63 Tests bestehen (`python -m unittest discover -s tests`): die Quellen, die Presets der Box, die Modelldateien und die Zahlen, die die Dokumente nennen. Die Boxen prüfen auch die Asserts ihrer Quelle; keine wurde gedruckt oder gemessen. |
 | Hardware | 🔴 | Nichts wurde gedruckt oder vermessen, die Maße der Platinen stammen aus Datenblättern, und jede Zeile der Prüfstand-Abnahmematrix ist ungetestet. |
 | Dokumentation | 🟢 | Acht Sprachen, die Entwurfsvorgaben und die Prüfstand-Abnahmematrix sind geschrieben und aktuell. |
 
 ## 🎯 Überblick
 
-* **Das Radargehäuse ist `scad/node_enclosure_radar.scad`** (mit STL-, 3MF- und AMF-Exporten und zwei Slicer-Projekten, der Basis und dem Schiebedeckel): eine 90-Grad-Eckbasis mit Blende, Dach und Boden, Haltestufen, einem 2 mm dicken Schiebedeckel vorn und Seitenklappen, alles über benannte Parameter gesteuert.
+* **Das Radargehäuse ist `scad/node_enclosure_radar.scad`** (mit zwei Slicer-Projekten, der Basis und dem Schiebedeckel; STL und 3MF jedes Teils erzeugt `tools/export_models.py` aus den Quellen, und sie liegen als Artefakt der CI, nicht im Repository): eine 90-Grad-Eckbasis mit Blende, Dach und Boden, Haltestufen, einem 2 mm dicken Schiebedeckel vorn und Seitenklappen, alles über benannte Parameter gesteuert.
+* **Eine Pinbelegung und eine gemeinsame Datei.** `docs/PINOUT.md` erzeugt `tools/pinout.py` aus den Tabellen, mit denen die Firmware gebaut wird (die Pins des Moduls, die zehn seriellen Ports, das Zigbee-Funkmodul, die Relais und die Analogeingänge der Basisplatine, für beide Platinen), und ein Test schlägt fehl, wenn sie abweicht; `scad/node_common.scad` enthält, was beide Gehäuse teilen: Wand, Deckel, Spiel und die handelsüblichen Kabelverschraubungen (PG7 12,5 mm, M12 12 mm, PG9 15,2 mm, M16 16 mm), sodass ein Loch ein Gewinde plus Spiel ist und keine runde Zahl.
 * **Eine parametrische Box für die Knoten Solar, Elektro und Alarm** (`scad/node_box.scad`, Voreinstellungen `solar`, `electrical` und `alarm`): Wände, Pfosten für die Platine, Löcher für Kabelverschraubungen, eine Lüftung, eine Aufnahme für einen Sabotage-Mikroschalter unter dem Deckel und ein Deckel mit ringförmiger Lippe. Es ist eine Kleinspannungsbox, kein Gehäuse für Netzverdrahtung.
 * **Halter** für drei Radarmodule, eine Kabelverschraubung und Ablaufbohrungen. Für die Platine ESP32-S3-ETH-PoE, die PoE-Magnetik, die PTC-Heizung und das Lichtsensorfenster, die die Prüfstandmatrix testen will, gibt es noch keine Volumina. Kein metallisches, leitendes oder kohlenstoffhaltiges Material vor einer 24-GHz-Öffnung, ohne es vorher zu messen.
 * **Prüfstand-Abnahmematrix:** die Prüfungen für Funk, Umgebung, Stromversorgung, Netzwerk und Kamera, jeweils mit Methode und vorgeschlagenem Bestehenskriterium, und eine auszufüllende Kamera-Kompatibilitätstabelle.
@@ -93,7 +94,7 @@ Das Radargehäuse ist ein druckbarer mechanischer Ausgangspunkt, **keine IP-, HF
 
 | Name | Wert | Was sie festlegt |
 |---|---|---|
-| `wall`, `lid_t` | 3 mm, 3 mm | Wand- und Deckelstärke von `node_box.scad` |
+| `wall`, `lid_t` | 3 mm, 3 mm | Wand- und Deckelstärke von `node_box.scad` (definiert in `node_common.scad`) |
 | `post_d`, `post_h`, `post_cap` | 7, 6, 9 mm | Die Pfosten für die Platine und die Deckelschrauben |
 | `screw_d` | 3.2 mm | M3-Schneidschrauben in die Pfosten |
 | `clear`, `lip_w` | 0.3 mm, 1.6 mm | Spiel zwischen Deckel und Box; Breite der ringförmigen Lippe (1,2 bis 3 mm) |
@@ -113,6 +114,8 @@ Das Radargehäuse ist ein druckbarer mechanischer Ausgangspunkt, **keine IP-, HF
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python tools/export_models.py --out build/models   # every piece as STL and 3MF
+python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ```
 
 Siehe die [Validierungsgrenze](docs/VALIDATION.md). Die vorgesehene Hardware-Lizenz ist CERN-OHL-S-2.0; fügen Sie ihren vollständigen Text hinzu, bevor Sie die Entwürfe veröffentlichen.
@@ -120,7 +123,7 @@ Siehe die [Validierungsgrenze](docs/VALIDATION.md). Die vorgesehene Hardware-Liz
 ## 🧪 Tests
 
 ```powershell
-python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 63 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 

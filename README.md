@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
@@ -39,7 +39,7 @@
 | Maturity | Functional |
 | Role | Enclosures, electronics and the bench acceptance matrix (family: Hardware, parent: ARMOR-NODE-RADAR) |
 | Stack | OpenSCAD 2021.01+ (CAD), Python 3.11+ (checks) |
-| Tests | 34 (`python -m unittest discover -s tests`) |
+| Tests | 63 (`python -m unittest discover -s tests`) |
 | Designs | The radar enclosure and the box of 3 node presets (solar, electrical, alarm) |
 | Runs on | Any computer with OpenSCAD |
 | On real hardware | None yet: nothing has been printed or measured; the three boxes are only checked by the asserts of their source |
@@ -56,13 +56,14 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Software | 🟡 | The radar enclosure and the parametric box of the solar, electrical and alarm nodes are OpenSCAD sources; the radar box is a printable starting point, not an IP, RF or thermal rating. |
-| Tests | 🟡 | 34 tests pass (`python -m unittest discover -s tests`): the sources, the presets of the box, the model files and the numbers the documents quote. The boxes are also checked by the asserts of their source; none has been printed or measured. |
+| Tests | 🟡 | 63 tests pass (`python -m unittest discover -s tests`): the sources, the presets of the box, the model files and the numbers the documents quote. The boxes are also checked by the asserts of their source; none has been printed or measured. |
 | Hardware | 🔴 | Nothing has been printed or measured, the board sizes come from data sheets, and every row of the bench acceptance matrix is not tested. |
 | Documentation | 🟢 | Eight languages, the design inputs and the bench acceptance matrix are written and up to date. |
 
 ## 🎯 Overview
 
-* **The radar enclosure is `scad/node_enclosure_radar.scad`** (with STL, 3MF and AMF exports and two slicer projects, the base and the sliding cover): a 90-degree corner base with a visor, roof and floor, retaining steps, a sliding 2 mm front cover and side flaps, all driven by named parameters.
+* **The radar enclosure is `scad/node_enclosure_radar.scad`** (with two slicer projects, the base and the sliding cover; the STL and 3MF of every piece are made from the sources by `tools/export_models.py` and kept as an artifact of the CI, not in the repository): a 90-degree corner base with a visor, roof and floor, retaining steps, a sliding 2 mm front cover and side flaps, all driven by named parameters.
+* **One table of the pins and one shared file.** `docs/PINOUT.md` is made by `tools/pinout.py` from the tables the firmware is built with (the pins of the module, the ten serial ports, the Zigbee radio, the relays and the analog inputs of the base board, for both boards) and a test fails when it differs; `scad/node_common.scad` holds what both enclosures share: wall, lid, play and the cable-gland sizes of the shop (PG7 12.5 mm, M12 12 mm, PG9 15.2 mm, M16 16 mm), so a hole is a thread plus a play and not a round number.
 * **A parametric box for the solar, electrical and alarm nodes** (`scad/node_box.scad`, presets `solar`, `electrical` and `alarm`): walls, posts for the board, cable-gland holes, a vent, a pocket for a tamper micro-switch under the lid and a lid with a ring-shaped lip. It is a low-voltage box, not an enclosure for mains wiring.
 * **Holders** for three radar modules, a cable gland and drain holes. There are no volumes yet for the ESP32-S3-ETH-PoE board, the PoE magnetics, the PTC heater or the light-sensor window that the bench matrix wants to test. No metallic, conductive or carbon-loaded material in front of a 24 GHz aperture without measuring it first.
 * **Bench acceptance matrix:** the radio, environment, power, network and camera checks with a method and a proposed pass criterion each, and a camera compatibility table to fill in.
@@ -93,7 +94,7 @@ The radar enclosure is a printable mechanical starting point, **not an IP, RF or
 
 | Name | Value | What it sets |
 |---|---|---|
-| `wall`, `lid_t` | 3 mm, 3 mm | Wall and lid thickness of `node_box.scad` |
+| `wall`, `lid_t` | 3 mm, 3 mm | Wall and lid thickness of `node_box.scad` (defined in `node_common.scad`) |
 | `post_d`, `post_h`, `post_cap` | 7, 6, 9 mm | The posts for the board and for the lid screws |
 | `screw_d` | 3.2 mm | M3 self-tapping screws into the posts |
 | `clear`, `lip_w` | 0.3 mm, 1.6 mm | Play between lid and box; width of the ring-shaped lip (1.2 to 3 mm) |
@@ -113,6 +114,8 @@ The radar enclosure is a printable mechanical starting point, **not an IP, RF or
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python tools/export_models.py --out build/models   # every piece as STL and 3MF
+python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ```
 
 See the [validation boundary](docs/VALIDATION.md). The intended hardware licence is CERN-OHL-S-2.0; add its full text before releasing the designs.
@@ -120,7 +123,7 @@ See the [validation boundary](docs/VALIDATION.md). The intended hardware licence
 ## 🧪 Testing
 
 ```powershell
-python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 63 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 

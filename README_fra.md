@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 ou ultérieure">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-63%20passing-2ea44f.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturité">
 </p>
@@ -39,7 +39,7 @@
 | Maturité | Fonctionnel |
 | Rôle | Boîtiers, électronique et la matrice d'acceptation sur banc (famille : Hardware, parent : ARMOR-NODE-RADAR) |
 | Technologie | OpenSCAD 2021.01+ (CAO), Python 3.11+ (contrôles) |
-| Tests | 34 (`python -m unittest discover -s tests`) |
+| Tests | 63 (`python -m unittest discover -s tests`) |
 | Conceptions | Le boîtier du radar et la boîte de 3 préréglages de nœud (solaire, électrique, alarme) |
 | Fonctionne sur | N'importe quel ordinateur avec OpenSCAD |
 | Sur matériel réel | Aucun pour l'instant : rien n'a été imprimé ni mesuré ; les trois boîtes ne sont vérifiées que par les `assert` de leur source |
@@ -56,13 +56,14 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Logiciel | 🟡 | Le boîtier du radar et la boîte paramétrique des nœuds solaire, électrique et d'alarme sont des sources OpenSCAD ; la boîte du radar est un point de départ imprimable, pas une classe IP, RF ou thermique. |
-| Tests | 🟡 | 34 tests réussissent (`python -m unittest discover -s tests`) : les sources, les préréglages de la boîte, les fichiers de modèle et les chiffres cités par les documents. Les boîtes sont aussi vérifiées par les `assert` de leur source ; aucune n'a été imprimée ni mesurée. |
+| Tests | 🟡 | 63 tests réussissent (`python -m unittest discover -s tests`) : les sources, les préréglages de la boîte, les fichiers de modèle et les chiffres cités par les documents. Les boîtes sont aussi vérifiées par les `assert` de leur source ; aucune n'a été imprimée ni mesurée. |
 | Matériel | 🔴 | Rien n'a été imprimé ni mesuré, les dimensions des cartes viennent de fiches techniques, et chaque ligne de la matrice d'acceptation sur banc n'est pas testée. |
 | Documentation | 🟢 | Huit langues, les données de conception et la matrice d'acceptation sur banc sont écrites et à jour. |
 
 ## 🎯 Présentation
 
-* **Le boîtier du radar est `scad/node_enclosure_radar.scad`** (avec exports STL, 3MF et AMF et deux projets de trancheur, la base et le couvercle coulissant) : une base d'angle à 90 degrés avec visière, toit et plancher, des gradins de retenue, un couvercle avant coulissant de 2 mm et des volets latéraux, le tout piloté par des paramètres nommés.
+* **Le boîtier du radar est `scad/node_enclosure_radar.scad`** (avec deux projets de trancheur, la base et le couvercle coulissant ; le STL et le 3MF de chaque pièce sont produits depuis les sources par `tools/export_models.py` et conservés comme artefact de la CI, pas dans le dépôt) : une base d'angle à 90 degrés avec visière, toit et plancher, des gradins de retenue, un couvercle avant coulissant de 2 mm et des volets latéraux, le tout piloté par des paramètres nommés.
+* **Un tableau des broches et un fichier partagé.** `docs/PINOUT.md` est produit par `tools/pinout.py` à partir des tables avec lesquelles le firmware est compilé (les broches du module, les dix ports série, la radio Zigbee, les relais et les entrées analogiques de la carte de base, pour les deux cartes) et un test échoue s'il diffère ; `scad/node_common.scad` contient ce que les deux boîtiers partagent : paroi, couvercle, jeu et les tailles de presse-étoupe du commerce (PG7 12,5 mm, M12 12 mm, PG9 15,2 mm, M16 16 mm), de sorte qu'un trou est un filetage plus un jeu et non un nombre rond.
 * **Une boîte paramétrique pour les nœuds solaire, électrique et alarme** (`scad/node_box.scad`, préréglages `solar`, `electrical` et `alarm`) : parois, plots pour la carte, trous de presse-étoupe, une aération, un logement pour un micro-interrupteur anti-sabotage sous le couvercle et un couvercle à lèvre annulaire. C'est une boîte basse tension, pas un coffret pour câblage secteur.
 * **Supports** pour trois modules radar, un presse-étoupe et des trous de drainage. Il n'y a pas encore de volumes pour la carte ESP32-S3-ETH-PoE, la magnétique PoE, le chauffage PTC ni la fenêtre du capteur de lumière que la matrice de banc veut tester. Aucun matériau métallique, conducteur ou chargé de carbone devant une ouverture 24 GHz sans l'avoir mesuré.
 * **Matrice d'acceptation sur banc :** les contrôles radio, environnement, alimentation, réseau et caméra avec une méthode et un critère de réussite proposé chacun, et un tableau de compatibilité des caméras à remplir.
@@ -93,7 +94,7 @@ Le boîtier du radar est un point de départ mécanique imprimable, **pas une cl
 
 | Nom | Valeur | Ce qu'elle règle |
 |---|---|---|
-| `wall`, `lid_t` | 3 mm, 3 mm | Épaisseur de paroi et de couvercle de `node_box.scad` |
+| `wall`, `lid_t` | 3 mm, 3 mm | Épaisseur de paroi et de couvercle de `node_box.scad` (définies dans `node_common.scad`) |
 | `post_d`, `post_h`, `post_cap` | 7, 6, 9 mm | Les plots de la carte et des vis du couvercle |
 | `screw_d` | 3.2 mm | Vis M3 autotaraudeuses dans les plots |
 | `clear`, `lip_w` | 0.3 mm, 1.6 mm | Jeu entre couvercle et boîte ; largeur de la lèvre annulaire (1,2 à 3 mm) |
@@ -113,6 +114,8 @@ Le boîtier du radar est un point de départ mécanique imprimable, **pas une cl
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python tools/export_models.py --out build/models   # every piece as STL and 3MF
+python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ```
 
 Voir la [frontière de validation](docs/VALIDATION.md). La licence matérielle prévue est CERN-OHL-S-2.0 ; ajoutez son texte complet avant de publier les conceptions.
@@ -120,7 +123,7 @@ Voir la [frontière de validation](docs/VALIDATION.md). La licence matérielle p
 ## 🧪 Tests
 
 ```powershell
-python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 63 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 

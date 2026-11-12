@@ -20,7 +20,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 o successiva">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-34%20passing-2ea44f.svg" alt="Test">
+  <img src="https://img.shields.io/badge/Tests-63%20passing-2ea44f.svg" alt="Test">
   <img src="https://img.shields.io/badge/Version-0.2.8-0f6cbd.svg" alt="Versione">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturità">
 </p>
@@ -39,7 +39,7 @@
 | Maturità | Funzionale |
 | Ruolo | Involucri, elettronica e la matrice di accettazione al banco (famiglia: Hardware, padre: ARMOR-NODE-RADAR) |
 | Tecnologia | OpenSCAD 2021.01+ (CAD), Python 3.11+ (verifiche) |
-| Test | 34 (`python -m unittest discover -s tests`) |
+| Test | 63 (`python -m unittest discover -s tests`) |
 | Progetti | L'involucro del radar e la scatola di 3 preset di nodo (solare, elettrico, allarme) |
 | Gira su | Qualsiasi computer con OpenSCAD |
 | Su hardware reale | Ancora nessuno: nulla è stato stampato né misurato; le tre scatole sono verificate solo dagli `assert` del sorgente |
@@ -56,13 +56,14 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Software | 🟡 | L'involucro del radar e la scatola parametrica dei nodi solare, elettrico e d'allarme sono sorgenti OpenSCAD; la scatola del radar è un punto di partenza stampabile, non una classificazione IP, RF o termica. |
-| Test | 🟡 | 34 test passano (`python -m unittest discover -s tests`): i sorgenti, i preset della scatola, i file di modello e i numeri citati dai documenti. Le scatole sono verificate anche dagli `assert` del loro sorgente; nessuna è stata stampata né misurata. |
+| Test | 🟡 | 63 test passano (`python -m unittest discover -s tests`): i sorgenti, i preset della scatola, i file di modello e i numeri citati dai documenti. Le scatole sono verificate anche dagli `assert` del loro sorgente; nessuna è stata stampata né misurata. |
 | Hardware | 🔴 | Nulla è stato stampato né misurato, le dimensioni delle schede vengono dai datasheet e ogni riga della matrice di accettazione al banco non è testata. |
 | Documentazione | 🟢 | Otto lingue, i dati di progetto e la matrice di accettazione al banco sono scritti e aggiornati. |
 
 ## 🎯 Panoramica
 
-* **L'involucro del radar è `scad/node_enclosure_radar.scad`** (con esportazioni STL, 3MF e AMF e due progetti dello slicer, la base e il coperchio scorrevole): una base d'angolo a 90 gradi con visiera, tetto e pavimento, gradini di ritenuta, un coperchio frontale scorrevole da 2 mm e alette laterali, tutto governato da parametri con nome.
+* **L'involucro del radar è `scad/node_enclosure_radar.scad`** (con due progetti dello slicer, la base e il coperchio scorrevole; lo STL e il 3MF di ogni pezzo li crea `tools/export_models.py` dai sorgenti e restano come artefatto della CI, non nel repository): una base d'angolo a 90 gradi con visiera, tetto e pavimento, gradini di ritenuta, un coperchio frontale scorrevole da 2 mm e alette laterali, tutto governato da parametri con nome.
+* **Una tabella dei pin e un file condiviso.** `docs/PINOUT.md` lo crea `tools/pinout.py` dalle tabelle con cui si compila il firmware (i pin del modulo, le dieci porte seriali, la radio Zigbee, i relè e gli ingressi analogici della scheda base, per le due schede) e un test fallisce se differisce; `scad/node_common.scad` contiene ciò che i due involucri condividono: parete, coperchio, gioco e le misure dei pressacavi in commercio (PG7 12,5 mm, M12 12 mm, PG9 15,2 mm, M16 16 mm), così un foro è una filettatura più un gioco e non un numero tondo.
 * **Una scatola parametrica per i nodi solare, elettrico e allarme** (`scad/node_box.scad`, preset `solar`, `electrical` e `alarm`): pareti, colonnine per la scheda, fori per pressacavi, una ventilazione, un alloggiamento per un microinterruttore antimanomissione sotto il coperchio e un coperchio con labbro ad anello. È una scatola a bassa tensione, non un involucro per cablaggio di rete.
 * **Supporti** per tre moduli radar, un pressacavo e fori di drenaggio. Non ci sono ancora volumi per la scheda ESP32-S3-ETH-PoE, la magnetica PoE, il riscaldatore PTC né la finestra del sensore di luce che la matrice di banco vuole provare. Nessun materiale metallico, conduttivo o caricato con carbonio davanti a un'apertura a 24 GHz senza averlo misurato.
 * **Matrice di accettazione al banco:** i controlli di radio, ambiente, alimentazione, rete e telecamera con un metodo e un criterio di superamento proposto ciascuno, e una tabella di compatibilità delle telecamere da compilare.
@@ -93,7 +94,7 @@ L'involucro del radar è un punto di partenza meccanico stampabile, **non una cl
 
 | Nome | Valore | Cosa imposta |
 |---|---|---|
-| `wall`, `lid_t` | 3 mm, 3 mm | Spessore di parete e coperchio di `node_box.scad` |
+| `wall`, `lid_t` | 3 mm, 3 mm | Spessore di parete e coperchio di `node_box.scad` (definiti in `node_common.scad`) |
 | `post_d`, `post_h`, `post_cap` | 7, 6, 9 mm | I supporti della scheda e delle viti del coperchio |
 | `screw_d` | 3.2 mm | Viti M3 autofilettanti nei supporti |
 | `clear`, `lip_w` | 0.3 mm, 1.6 mm | Gioco tra coperchio e scatola; larghezza del labbro ad anello (da 1,2 a 3 mm) |
@@ -113,6 +114,8 @@ L'involucro del radar è un punto di partenza meccanico stampabile, **non una cl
 ```powershell
 openscad -o build/node_enclosure_radar.stl scad/node_enclosure_radar.scad
 openscad -D 'part="both"' -D 'preset="alarm"' -o build/node_box_alarm.stl scad/node_box.scad   # presets: solar, electrical, alarm
+python tools/export_models.py --out build/models   # every piece as STL and 3MF
+python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ```
 
 Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware prevista è CERN-OHL-S-2.0; aggiungi il suo testo completo prima di pubblicare i progetti.
@@ -120,7 +123,7 @@ Vedi il [confine di validazione](docs/VALIDATION.md). La licenza hardware previs
 ## 🧪 Test
 
 ```powershell
-python -m unittest discover -s tests   # 34 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 63 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
