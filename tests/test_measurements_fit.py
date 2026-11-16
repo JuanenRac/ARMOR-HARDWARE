@@ -25,6 +25,15 @@ def box_number(name: str) -> float:
     return float(match.group(1))
 
 
+def inside_of(preset: str) -> tuple[float, float, float]:
+    """The size inside a box, read from `function inside(p)` of node_box.scad (the order there is solar, electrical and the rest, which is alarm)."""
+    match = re.search(r'(?m)^function\s+inside\(p\)\s*=\s*p == "solar" \? \[([^\]]+)\] : p == "electrical" \? \[([^\]]+)\] : \[([^\]]+)\];', BOX)
+    assert match, "function inside(p) in node_box.scad is not in the form this test reads"
+    row = match.group({"solar": 1, "electrical": 2, "alarm": 3}[preset])
+    x, y, z = (float(part) for part in row.split(","))
+    return x, y, z
+
+
 def post_pitch(board: tuple[float, float]) -> tuple[float, float]:
     """The distance between the posts of the board along X and Y."""
     return board[0] - 2 * POST_MARGIN_MM, board[1] - 2 * POST_MARGIN_MM
@@ -51,9 +60,18 @@ class SyntheticRulesTests(unittest.TestCase):
         self.assertFalse(holes_fit((66, 53), (58.0, 47.5)))
 
     def test_a_stack_fits_the_solar_box_only_when_it_is_low_enough(self):
-        inside = 45.0
+        inside = inside_of("solar")[2]
         self.assertTrue(stack_fits(20.0, box_number("post_h"), inside))
         self.assertFalse(stack_fits(37.0, box_number("post_h"), inside))
+
+    def test_the_sizes_inside_the_boxes_are_read_from_the_source(self):
+        self.assertEqual(inside_of("solar"), (110.0, 80.0, 45.0))
+        self.assertEqual(inside_of("electrical"), (140.0, 100.0, 50.0))
+        self.assertEqual(inside_of("alarm"), (150.0, 110.0, 60.0))
+
+    def test_the_margin_of_the_posts_is_the_one_the_source_checks(self):
+        # node_box.scad spaces the posts 4 mm in from the corners of the board; if that number changes this test has to follow it
+        self.assertIn(f"bd[0] + 2 * {POST_MARGIN_MM:g} + 2 * post_d / 2", BOX)
 
 
 class RealMeasurementsTests(unittest.TestCase):
@@ -74,16 +92,18 @@ class RealMeasurementsTests(unittest.TestCase):
         stack = MEASURED["esp32_s3_eth_board"]["stacked_height_with_poe_module_mm"]
         if stack is None:
             self.skipTest("the stack with the PoE module is not measured yet")
-        self.assertTrue(stack_fits(float(stack), box_number("post_h"), 45.0))
+        self.assertTrue(stack_fits(float(stack), box_number("post_h"), inside_of("solar")[2]))
 
     def test_the_measured_distance_to_the_cover_is_inside_the_guide(self):
         distances = MEASURED["printed_radar_piece"]["inner_face_to_holder_front_mm"]
         measured = {name: value for name, value in distances.items() if value is not None}
         if not measured:
             self.skipTest("the printed piece is not measured yet")
+        behind = MEASURED["ld2450_module"]["antenna_plane_behind_front_edge_mm"]
+        if behind is None:
+            self.skipTest("the antenna plane of the module is not measured yet: a distance to the cover means nothing without it")
         wavelength = 299792458.0 / 24.125e9 * 1000.0
         for name, value in measured.items():
-            behind = MEASURED["ld2450_module"]["antenna_plane_behind_front_edge_mm"] or 0.0
             self.assertTrue(any(abs(value + behind - wanted) <= 1.2 for wanted in (wavelength, 1.5 * wavelength)), f"{name}: {value} mm")
 
 
