@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The Architecture picture rounds its coordinates to two decimals:** the legend positions no longer carry floating-point noise such as 399.9999999999999, so `make_architecture.py --check` gives the same answer on every machine; the shared tool is the one of ARMOR-COMMON.
 - **The architecture picture names the model files that exist:** the radar enclosure box points to the 3MF file of the repository instead of an STL that is exported on demand.
 - **The shared tools of the manifest and the status lights gain an opt-in strict check of the evidence:** `sync_manifests.py` and `status_lights.py` take `--strict-evidence` (off by default; `ARMOR_STRICT_EVIDENCE=1` switches it on for `armor_ci_validate.py`).
 - **The test of the measurements reads the size of the box from the source:** the height inside the solar box comes from `node_box.scad` instead of a number typed in the test, a test pins the sizes of the three boxes and the margin of the posts, and a distance to the cover that is measured without the antenna plane of the module is skipped, with the reason, instead of being judged against zero.
