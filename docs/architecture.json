@@ -39,11 +39,11 @@
       "lines": [
         "90-degree corner base with a visor,",
         "sliding 2 mm cover, three module",
-        "holders; STL, 3MF and AMF"
+        "holders; 3MF files, STL on export"
       ],
       "code": [
         "scad/node_enclosure_radar.scad",
-        "scad/node_enclosure_radar.stl"
+        "scad/node_enclosure_radar_1.3mf"
       ]
     },
     {
