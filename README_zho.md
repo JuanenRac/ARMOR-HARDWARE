@@ -20,8 +20,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-101%20passing-2ea44f.svg" alt="Tests">
-  <img src="https://img.shields.io/badge/Version-0.3.0-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Tests-128%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Version-0.3.1-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -35,11 +35,11 @@
 
 | | |
 |---|---|
-| 版本 | `0.3.0` |
+| 版本 | `0.3.1` |
 | 成熟度 | 可用 |
 | 角色 | 外壳、电子元件和台架验收矩阵（家族：Hardware，上级：ARMOR-NODE-RADAR） |
 | 技术栈 | OpenSCAD 2021.01+（CAD）、Python 3.11+（检查） |
-| 测试 | 101 (`python -m unittest discover -s tests`) |
+| 测试 | 128 (`python -m unittest discover -s tests`) |
 | 设计 | 雷达外壳和 3 种节点预设（太阳能、电气、报警）的盒子 |
 | 运行位置 | 任何装有 OpenSCAD 的计算机 |
 | 真实硬件 | 暂无：没有任何东西被打印或测量过；三个盒子只由源文件中的 `assert` 检查 |
@@ -56,13 +56,13 @@
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
 | 软件 | 🟡 | 雷达外壳以及光伏、电气和报警节点的参数化盒子都是 OpenSCAD 源文件；雷达盒子是可打印的起点，并非 IP、射频或温度等级。 |
-| 测试 | 🟡 | 101 个测试通过（`python -m unittest discover -s tests`）：源文件、盒子预设、模型文件以及文档中引用的数字。盒子也由其源码中的 `assert` 检查；都没有打印或测量过。 |
+| 测试 | 🟡 | 128 个测试通过（`python -m unittest discover -s tests`）：源文件、盒子预设、模型文件以及文档中引用的数字。盒子也由其源码中的 `assert` 检查；都没有打印或测量过。 |
 | 硬件 | 🔴 | 没有任何东西被打印或测量过，板子的尺寸来自数据手册，测试台验收矩阵的每一行都未测试。 |
 | 文档 | 🟢 | 八种语言、设计输入和测试台验收矩阵均已编写并保持最新。 |
 
 ## 🎯 概述
 
-* **雷达外壳是 `scad/node_enclosure_radar.scad`**（带两个切片项目：底座和滑动盖；每个零件的 STL 和 3MF 由 `tools/export_models.py` 从源文件生成，作为 CI 的构件保存，而不放在仓库里）：带遮阳罩、顶和底的 90 度转角底座、固定台阶、2 毫米的滑动前盖和侧翼，全部由命名参数驱动。
+* **雷达外壳是 `scad/node_enclosure_radar.scad`**（带两个切片项目：底座和滑动盖，由 `tools/slicer_projects.py` 和一项测试保持与源文件一致；每个零件的 STL 和 3MF 由 `tools/export_models.py` 从源文件生成，作为 CI 的构件保存，而不放在仓库里）：带遮阳罩、顶和底的 90 度转角底座、固定台阶、2 毫米的滑动前盖和侧翼，全部由命名参数驱动。
 * **一张引脚表和一个共享文件。** `docs/PINOUT.md` 由 `tools/pinout.py` 根据固件编译所用的表生成（模块引脚、十个串口、Zigbee 无线电、底板的继电器和模拟输入，两块板各一份），不一致时测试失败；`scad/node_common.scad` 保存两种外壳共用的值：壁厚、盖厚、间隙和市售线缆格兰头的尺寸（PG7 12.5 毫米、M12 12 毫米、PG9 15.2 毫米、M16 16 毫米），因此孔径是螺纹加间隙，而不是随手取的整数。
 * **用于太阳能、电气和报警节点的参数化盒子**（`scad/node_box.scad`，预设 `solar`、`electrical` 和 `alarm`）：墙壁、板子立柱、电缆格兰头孔、通风孔、盖下的防拆微动开关槽，以及带环形唇边的盖子。这是低压盒子，不是市电布线的外壳。
 * **支架**用于三个雷达模块、一个电缆格兰头和排水孔。台架矩阵要测试的 ESP32-S3-ETH-PoE 板、PoE 磁件、PTC 加热器和光传感器窗口还没有预留空间。未经测量，24 GHz 孔径前不要放置金属、导电或含碳的材料。
@@ -123,7 +123,7 @@ python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ## 🧪 测试
 
 ```powershell
-python -m unittest discover -s tests   # 101 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 128 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
@@ -131,6 +131,8 @@ python -I tools/armor_ci_validate.py
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | 源文件、盒子预设、模型文件以及文档中引用的数字 |
 | `test_parametric_render.py` | 12 | 用 OpenSCAD 渲染的盒子：每个预设每个部件的尺寸、改变的参数，以及源文件的 assert 所拒绝的内容（其中 10 个需要 OpenSCAD） |
+| `test_slicer_projects.py` | 11 | 切片项目与源文件对照：记录、外形尺寸、网格中的电缆孔和盖板厚度 |
+| `test_measurement_record.py` | 12 | 已填写的测量记录以及以其为依据的台架矩阵（使用虚构行） |
 
 在装有 OpenSCAD 的机器上会渲染每个部件：雷达底座和盖板，以及三种预设的盒子和盖子。打印出的原型由[台架验收矩阵](docs/BENCH_ACCEPTANCE.md)评判。
 

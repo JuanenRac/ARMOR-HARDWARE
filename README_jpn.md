@@ -20,8 +20,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/CAD-OpenSCAD-f9d72c.svg" alt="CAD">
-  <img src="https://img.shields.io/badge/Tests-101%20passing-2ea44f.svg" alt="Tests">
-  <img src="https://img.shields.io/badge/Version-0.3.0-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Tests-128%20passing-2ea44f.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Version-0.3.1-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-functional-00E5FF.svg" alt="Maturity">
 </p>
 
@@ -35,11 +35,11 @@
 
 | | |
 |---|---|
-| バージョン | `0.3.0` |
+| バージョン | `0.3.1` |
 | 成熟度 | 機能する |
 | 役割 | 筐体、電子部品、ベンチ受け入れマトリクス（ファミリー：Hardware、親：ARMOR-NODE-RADAR） |
 | 技術 | OpenSCAD 2021.01+（CAD）、Python 3.11+（検査） |
-| テスト | 101 (`python -m unittest discover -s tests`) |
+| テスト | 128 (`python -m unittest discover -s tests`) |
 | 設計 | レーダー筐体と 3 つのノードプリセット（ソーラー、電気、アラーム）の箱 |
 | 動作環境 | OpenSCAD のある任意のコンピューター |
 | 実機での確認 | まだありません：何も印刷も計測もされていません。3 つのボックスはソースの `assert` で検査されているだけです |
@@ -56,13 +56,13 @@
 | 領域 | 状態 | ここでの意味 |
 |---|---|---|
 | ソフトウェア | 🟡 | レーダーの筐体と、太陽光・電気・警報ノード用のパラメトリックなボックスは OpenSCAD のソースです。レーダーのボックスは印刷できる出発点で、IP・RF・熱の等級ではありません。 |
-| テスト | 🟡 | 101 件のテストが通ります（`python -m unittest discover -s tests`）：ソース、箱のプリセット、モデルファイル、文書が引用する数値。箱はソースの `assert` でも検証されますが、印刷も測定もしていません。 |
+| テスト | 🟡 | 128 件のテストが通ります（`python -m unittest discover -s tests`）：ソース、箱のプリセット、モデルファイル、文書が引用する数値。箱はソースの `assert` でも検証されますが、印刷も測定もしていません。 |
 | ハードウェア | 🔴 | 何も印刷も実測もしておらず、基板の寸法はデータシートに基づいています。ベンチ受け入れマトリクスの全行が未テストです。 |
 | ドキュメント | 🟢 | 8 言語、設計の入力条件、ベンチ受け入れマトリクスが書かれていて最新です。 |
 
 ## 🎯 概要
 
-* **レーダーの筐体は `scad/node_enclosure_radar.scad`**（ベースとスライドカバーの 2 つのスライサープロジェクト付き。各パーツの STL と 3MF は `tools/export_models.py` がソースから作り、リポジトリではなく CI のアーティファクトとして保管します）：バイザー、屋根、床、固定用の段差、2 mm のスライド式フロントカバー、側面フラップを備えた 90 度コーナーのベースで、すべて名前付きパラメーターで動きます。
+* **レーダーの筐体は `scad/node_enclosure_radar.scad`**（ベースとスライドカバーの 2 つのスライサープロジェクト付き。`tools/slicer_projects.py` とテストがソースと一致させます。各パーツの STL と 3MF は `tools/export_models.py` がソースから作り、リポジトリではなく CI のアーティファクトとして保管します）：バイザー、屋根、床、固定用の段差、2 mm のスライド式フロントカバー、側面フラップを備えた 90 度コーナーのベースで、すべて名前付きパラメーターで動きます。
 * **ピン表 1 つと共有ファイル 1 つ。** `docs/PINOUT.md` は、ファームウェアのビルドに使う表（モジュールのピン、10 個のシリアルポート、Zigbee 無線、ベースボードのリレーとアナログ入力。2 枚のボードの分）から `tools/pinout.py` が作り、食い違えばテストが失敗します。`scad/node_common.scad` は 2 つの筐体が共有する値（壁、蓋、遊び、市販ケーブルグランドの寸法：PG7 12.5 mm、M12 12 mm、PG9 15.2 mm、M16 16 mm）を持つので、穴はキリのよい数字ではなく、ねじ径に遊びを足した値です。
 * **太陽光・電気・警報ノード用のパラメトリックボックス**（`scad/node_box.scad`、プリセット `solar`、`electrical`、`alarm`）：壁、基板用のポスト、ケーブルグランド用の穴、通気口、蓋の下の改ざん検知マイクロスイッチ用ポケット、リング状のリップ付きの蓋。低電圧用のボックスであり、商用電源配線用の筐体ではありません。
 * **ホルダー**：3 つのレーダーモジュール、ケーブルグランド、排水穴用。ベンチマトリクスが試験したい ESP32-S3-ETH-PoE 基板、PoE マグネティクス、PTC ヒーター、光センサー窓の空間はまだありません。24 GHz の開口の前には、測定せずに金属・導電性・カーボン入りの材料を置かないでください。
@@ -123,7 +123,7 @@ python tools/pinout.py --check   # docs/PINOUT.md against the firmware tables
 ## 🧪 テスト
 
 ```powershell
-python -m unittest discover -s tests   # 101 tests (10 render the box with OpenSCAD and are skipped without it)
+python -m unittest discover -s tests   # 128 tests (10 render the box with OpenSCAD and are skipped without it)
 python -I tools/armor_ci_validate.py
 ```
 
@@ -131,6 +131,8 @@ python -I tools/armor_ci_validate.py
 |---|---|---|
 | `test_enclosure_sources.py` | 22 | ソース、箱のプリセット、モデルファイル、文書が引用する数値 |
 | `test_parametric_render.py` | 12 | OpenSCAD でレンダリングした箱：各プリセットの各部品の寸法、変更したパラメータ、ソースの assert が拒否するもの（10 件は OpenSCAD が必要） |
+| `test_slicer_projects.py` | 11 | スライサープロジェクトとソースの照合：記録、外形、メッシュのケーブル穴とカバー厚 |
+| `test_measurement_record.py` | 12 | 記入済みの測定記録と、それに基づくベンチマトリクス（架空の行を使用） |
 
 OpenSCAD が使える環境では各部品（レーダーのベースとカバー、3 つのプリセットの箱と蓋）をレンダリングします。印刷した試作品は[ベンチ受け入れマトリクス](docs/BENCH_ACCEPTANCE.md)で評価します。
 
