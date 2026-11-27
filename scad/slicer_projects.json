@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "note": "What each slicer project was made from; written by tools/slicer_projects.py. Nothing has been printed.",
+  "projects": {
+    "node_enclosure_radar_1.3mf": {
+      "piece": "node_enclosure_radar_base",
+      "sources": {
+        "node_enclosure_radar.scad": "722ae6a2f245550afe9e156f5b2263a7e3ba5c0715f2f7a8d803b394514aea2f",
+        "node_common.scad": "41794c544c8d6ebdefd84c12a862ac1312d2d57205b42203b7bf057fb86eaf6f"
+      }
+    },
+    "node_enclosure_radar_2.3mf": {
+      "piece": "node_enclosure_radar_cover",
+      "sources": {
+        "node_enclosure_radar.scad": "722ae6a2f245550afe9e156f5b2263a7e3ba5c0715f2f7a8d803b394514aea2f",
+        "node_common.scad": "41794c544c8d6ebdefd84c12a862ac1312d2d57205b42203b7bf057fb86eaf6f"
+      }
+    }
+  }
+}

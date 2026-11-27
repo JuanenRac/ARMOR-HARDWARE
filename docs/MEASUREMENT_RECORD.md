@@ -9,6 +9,10 @@ A row of the [bench acceptance](BENCH_ACCEPTANCE.md) matrix turns to *passed* on
 3. `evidence` names a file in a folder next to the copy: a photo of the set-up and of the reading, or the log. One photo shows the whole set-up and one shows the instrument's display.
 4. Only then change the status of the row in the matrix, by hand, in the same commit that says which record it rests on.
 
+## Checking a record
+
+`python tools/check_measurement_record.py RECORD.csv` refuses a line with a `result` that lacks its date (written `YYYY-MM-DD`), instrument, value, unit or evidence, or whose evidence is not a file next to the record. `python tools/check_measurement_record.py --matrix` reads every record under `docs/records/` and fails when a row of the matrix is something other than *not tested* without a line there that says the same result; a test runs it.
+
 ## What a record is not
 
 A line without a value, an instrument or a piece of evidence is not a record. A criterion that cannot be measured is rewritten in the matrix until it can; it is not marked *passed*. The template is generated from the matrix (`python tools/make_measurement_template.py`) and a test fails when it is out of date, so a new row of the matrix has its line.

@@ -28,6 +28,7 @@ function glands(p)      = [for (x = gland_x(p)) [x, gland_hole(gland_thread(p))]
 
 post_d  = 7;        // the posts for the board: diameter and height
 post_h  = 6;
+post_margin = 4;    // how far inside each corner of the board rectangle its posts sit (also the posts of the lid screws, from the walls)
 screw_d = 3.2;      // the screws of the lid and of the board (M3 self-tapping into the posts)
 lip_w   = 1.6;      // the width of the ring-shaped lip of the lid
 post_cap = 9;       // the diameter of the posts of the lid screws
@@ -39,7 +40,7 @@ bd  = board(preset);
 // What would make a print useless is caught when the file is rendered, not on the printer.
 assert(preset == "solar" || preset == "electrical" || preset == "alarm", "preset must be solar, electrical or alarm");
 assert(part == "box" || part == "lid" || part == "both", "part must be box, lid or both");
-assert(bd[0] + 2 * 4 + 2 * post_d / 2 <= cav[0] && bd[1] + 2 * 4 + 2 * post_d / 2 <= cav[1], "the board and its posts do not fit inside the box");
+assert(bd[0] + 2 * post_margin + 2 * post_d / 2 <= cav[0] && bd[1] + 2 * post_margin + 2 * post_d / 2 <= cav[1], "the board and its posts do not fit inside the box");
 assert(lip_w >= 1.2 && lip_w <= 3, "the lip of the lid must be a ring between 1.2 and 3 mm wide");
 assert(len([for (g = glands(preset)) if (g[0] - g[1] / 2 < 9 || g[0] + g[1] / 2 > cav[0] - 9) 1]) == 0, "a cable hole is cut by a wall or a corner post");
 assert(len([for (g = glands(preset)) if (g[1] > cav[2] - 2) 1]) == 0, "a cable hole is taller than the inside of the box");
@@ -67,7 +68,7 @@ module box() {
     }
     // the posts of the board, on a grid that fits a board of the size of the preset (replace the holes with the real ones)
     bx = wall + (cav[0] - bd[0]) / 2;  by = wall + (cav[1] - bd[1]) / 2;
-    for (x = [4, bd[0] - 4], y = [4, bd[1] - 4]) difference() {
+    for (x = [post_margin, bd[0] - post_margin], y = [post_margin, bd[1] - post_margin]) difference() {
         translate([bx + x, by + y, wall]) cylinder(d = post_d, h = post_h);
         translate([bx + x, by + y, wall + 1]) cylinder(d = screw_d - 0.4, h = post_h);
     }
