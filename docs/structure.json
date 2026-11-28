@@ -46,6 +46,19 @@
           "tree_name": "node_enclosure_radar_1.3mf node_enclosure_radar_2.3mf"
         },
         {
+          "name": "slicer_projects.json",
+          "desc": {
+            "en": "the sources each slicer project was made from",
+            "es": "las fuentes de las que salió cada proyecto de laminador",
+            "de": "die Quellen, aus denen jedes Slicer-Projekt entstand",
+            "fr": "les sources dont vient chaque projet de trancheur",
+            "it": "i sorgenti da cui è nato ogni progetto di slicer",
+            "ja": "各スライサープロジェクトの元ソース",
+            "zh": "每个切片项目所用的源文件",
+            "pt": "as fontes de que saiu cada projeto de fatiador"
+          }
+        },
+        {
           "name": "node_box.scad",
           "desc": {
             "en": "the parametric box of the solar, electrical and alarm nodes",
@@ -193,6 +206,32 @@
             "zh": "无需 OpenSCAD 的导出",
             "pt": "exportação sem OpenSCAD"
           }
+        },
+        {
+          "name": "test_slicer_projects.py",
+          "desc": {
+            "en": "projects vs sources",
+            "es": "proyectos vs fuentes",
+            "de": "Projekte gegen Quellen",
+            "fr": "projets vs sources",
+            "it": "progetti vs sorgenti",
+            "ja": "プロジェクトとソース",
+            "zh": "项目与源文件",
+            "pt": "projetos vs fontes"
+          }
+        },
+        {
+          "name": "test_measurement_record.py",
+          "desc": {
+            "en": "records and matrix",
+            "es": "registros y matriz",
+            "de": "Protokolle und Matrix",
+            "fr": "relevés et matrice",
+            "it": "registri e matrice",
+            "ja": "記録とマトリクス",
+            "zh": "记录与矩阵",
+            "pt": "registos e matriz"
+          }
         }
       ]
     },
@@ -237,6 +276,19 @@
           }
         },
         {
+          "name": "slicer_projects.py",
+          "desc": {
+            "en": "keeps the slicer projects up",
+            "es": "mantiene al día los proyectos",
+            "de": "hält Slicer-Projekte aktuell",
+            "fr": "tient les projets à jour",
+            "it": "tiene aggiornati i progetti",
+            "ja": "スライサー案件を更新",
+            "zh": "更新切片项目",
+            "pt": "mantém os projetos em dia"
+          }
+        },
+        {
           "name": "pinout.py",
           "desc": {
             "en": "writes and checks docs/PINOUT.md",
@@ -247,6 +299,19 @@
             "ja": "docs/PINOUT.md を生成して検証",
             "zh": "生成并检查 docs/PINOUT.md",
             "pt": "escreve e verifica docs/PINOUT.md"
+          }
+        },
+        {
+          "name": "check_measurement_record.py",
+          "desc": {
+            "en": "checks a measurement record",
+            "es": "revisa un registro de medidas",
+            "de": "prüft ein Messprotokoll",
+            "fr": "vérifie un relevé de mesures",
+            "it": "controlla un registro di misure",
+            "ja": "測定記録を検査",
+            "zh": "检查测量记录",
+            "pt": "verifica um registo de medidas"
           }
         }
       ]

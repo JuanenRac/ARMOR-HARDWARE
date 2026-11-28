@@ -4,10 +4,16 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.3.1] - Slicer projects tied to their sources and checks of the measurement record
+
+- **The slicer projects of the radar enclosure agree with their source again:** both were made before the cable hole became that of a PG9 gland; their meshes are the current pieces (the hole of the base is 15.6 mm, not 15), the settings and the position on the plate are untouched, and the account number the slicer had saved in them is gone.
+- **A slicer project cannot stay behind its source:** `scad/slicer_projects.json` records the SHA-256 of the sources of each project, `tools/slicer_projects.py` puts a fresh export into them, and tests compare the record, the envelope, the cable hole and the cover thickness of the meshes with the sources.
+- **The measurement test reads from the source what it had typed:** the margin of the posts is the name `post_margin` of `node_box.scad`, a measured mounting hole must let the M3 screw through, and a distance to the cover measured without the antenna plane of the module now fails instead of being skipped.
+- **A filled measurement record is checked before the first real one exists:** `tools/check_measurement_record.py` refuses a result without date, instrument, value, unit and evidence next to the file, and with `--matrix` a row of the bench acceptance matrix that is not *not tested* without a record in the `records` folder of `docs`. Nothing has been printed or measured.
 - **The shared tools read the output of processes as UTF-8:** `tools/status_lights.py`, `tools/sync_manifests.py` and `tools/universal_readme_check.py` are the current copies; on Windows a character outside the code page no longer breaks a check.
 - **The shared project tool is the current one:** the copy follows the shared repository, which now knows the new solar panel node.
-
 - **The copy of the shared validator is current:** `tools/armor_ci_validate.py` now also checks with `node --check` that the scripts served to a browser parse, in a repository that has them under `panel/` or `public/`.
+
 ## [0.3.0] - Measurement record template, radar holder distance model, command tests and generated file trees
 
 - **The structure generator can write a figure read from the code:** `tools/make_structure.py` resolves `{{fact:NAME|LAST}}` in the descriptions of `docs/structure.json` where the documentation tools are next to the repository, and writes LAST (the figure it had when last written) everywhere else, so a repository still builds on its own.

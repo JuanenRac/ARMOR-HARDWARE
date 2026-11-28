@@ -272,8 +272,9 @@ class FolderTests(unittest.TestCase):
     def test_the_folder_holds_the_sources_and_the_slicer_projects_and_no_export(self):
         for path in SCAD.iterdir():
             self.assertGreater(path.stat().st_size, 500, path.name)
-            self.assertIn(path.suffix, {".scad", ".3mf"}, f"{path.name}: the exports are made by tools/export_models.py and not kept here")
+            self.assertIn(path.suffix, {".scad", ".3mf", ".json"}, f"{path.name}: the exports are made by tools/export_models.py and not kept here")
         self.assertEqual({path.name for path in SCAD.glob("*.3mf")}, {"node_enclosure_radar_1.3mf", "node_enclosure_radar_2.3mf"})
+        self.assertEqual({path.name for path in SCAD.glob("*.json")}, {"slicer_projects.json"})
 
 
 class SharedParametersTests(unittest.TestCase):

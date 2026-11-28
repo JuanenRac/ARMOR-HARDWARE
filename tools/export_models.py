@@ -6,7 +6,7 @@
   python tools/export_models.py --out build/models --piece node_box_solar_lid
 
 The model files are not kept in the repository: they are made from the sources by this script (the workflow `export-models.yml` runs it and keeps the folder as an artifact), so
-a model can never disagree with the source it came from. An assert of a source (a board that does not fit, a cable hole in a wall) fails the piece it belongs to.
+a model can never disagree with the source it came from. The two slicer projects of the radar enclosure are the exception, and tools/slicer_projects.py ties them to their sources. An assert of a source (a board that does not fit, a cable hole in a wall) fails the piece it belongs to.
 Copyright (C) 2026 JuanenRac (Electro Hobby 3D). GPL-3.0-or-later.
 """
 from __future__ import annotations
