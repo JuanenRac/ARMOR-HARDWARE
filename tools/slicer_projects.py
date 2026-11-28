@@ -148,8 +148,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{project}: {count} triangles from {piece}")
         write_record()
     problems = stale()
-    for problem in problems:
-        print(problem, file=sys.stderr)
+    for line in problems:
+        print(line, file=sys.stderr)
     print(f"SLICER_PROJECTS={'FAIL' if problems else 'PASS'}")
     return 1 if problems else 0
 

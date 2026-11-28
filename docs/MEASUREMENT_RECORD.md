@@ -11,7 +11,7 @@ A row of the [bench acceptance](BENCH_ACCEPTANCE.md) matrix turns to *passed* on
 
 ## Checking a record
 
-`python tools/check_measurement_record.py RECORD.csv` refuses a line with a `result` that lacks its date (written `YYYY-MM-DD`), instrument, value, unit or evidence, or whose evidence is not a file next to the record. `python tools/check_measurement_record.py --matrix` reads every record under `docs/records/` and fails when a row of the matrix is something other than *not tested* without a line there that says the same result; a test runs it.
+`python tools/check_measurement_record.py RECORD.csv` refuses a line with a `result` that lacks its date (written `YYYY-MM-DD`), instrument, value, unit or evidence, or whose evidence is not a file next to the record. `python tools/check_measurement_record.py --matrix` reads every record kept in a `records` folder inside `docs` and fails when a row of the matrix is something other than *not tested* without a line there that says the same result; a test runs it.
 
 ## What a record is not
 
